@@ -1,7 +1,10 @@
 import { jest } from '@jest/globals';
 
-import { observeCustomAttribute } from '../src/engine.js';
-import { CustomAttribute } from '../src/customAttribute.js';
+import { observeCustomAttribute, observeElement } from '../src/engine.js';
+import {
+  CustomAttribute,
+  instantiateCustomAttribute,
+} from '../src/customAttribute.js';
 import { getRegistry } from '../src/utils/registry';
 
 import { digest } from './jest.utils.js';
@@ -40,10 +43,10 @@ describe('Core - engine', () => {
         // Arrange
         const element = document.createElement('div');
 
-        // Assert
+        // Act
         observeCustomAttribute(element, 'hx-post', MyOwnAttribute);
 
-        // Arrange
+        // Assert
         expect(spyConnectedCallback).not.toHaveBeenCalled();
         expect(spyDisconnectedCallback).not.toHaveBeenCalled();
         expect(spyAttributeChangedCallback).not.toHaveBeenCalled();
@@ -54,10 +57,10 @@ describe('Core - engine', () => {
         const element = document.createElement('div');
         document.body.appendChild(element);
 
-        // Assert
+        // Act
         observeCustomAttribute(element, 'hx-post', MyOwnAttribute);
 
-        // Arrange
+        // Assert
         expect(spyConnectedCallback).toHaveBeenCalledTimes(1);
         expect(spyDisconnectedCallback).not.toHaveBeenCalled();
         expect(spyAttributeChangedCallback).not.toHaveBeenCalled();
@@ -67,15 +70,15 @@ describe('Core - engine', () => {
         // Arrange
         const element = document.createElement('div');
 
-        // Assert
-        const instance = observeCustomAttribute(
+        // Act
+        const stopObserving = observeCustomAttribute(
           element,
           'hx-post',
           MyOwnAttribute,
         );
 
-        // Arrange
-        expect(instance).toBeInstanceOf(Function);
+        // Assert
+        expect(stopObserving).toBeInstanceOf(Function);
       });
     });
 
@@ -84,12 +87,12 @@ describe('Core - engine', () => {
       const element = document.createElement('div');
       element.setAttribute('hx-post', 'old-value');
 
-      // Assert
+      // Act
       observeCustomAttribute(element, 'hx-post', MyOwnAttribute);
       element.setAttribute('hx-post', 'some-value');
       await digest();
 
-      // Arrange
+      // Assert
       expect(spyAttributeChangedCallback).toHaveBeenCalledWith(
         'hx-post',
         'old-value',
@@ -102,7 +105,7 @@ describe('Core - engine', () => {
       const element = document.createElement('div');
       element.setAttribute('hx-post', 'old-value');
 
-      // Assert
+      // act
       const stopObserving = observeCustomAttribute(
         element,
         'hx-post',
@@ -113,8 +116,89 @@ describe('Core - engine', () => {
       element.setAttribute('hx-post', 'some-value');
       await digest();
 
-      // Arrange
+      // Assert
       expect(spyAttributeChangedCallback).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('observeElement', () => {
+    let element = document.createElement('div');
+    let customAttributeInstance;
+    let stopObserving;
+
+    beforeEach(() => {
+      customAttributeInstance = instantiateCustomAttribute(
+        element,
+        MyOwnAttribute,
+      );
+    });
+
+    afterEach(() => {
+      stopObserving?.();
+      stopObserving = null;
+    });
+
+    describe('Root of body', () => {
+      const root = document.body;
+
+      test('it call the connected callback where we add an element into the DOM', async () => {
+        // Arrange
+        stopObserving = observeElement([customAttributeInstance]);
+
+        // Act
+        root.appendChild(element);
+        await digest();
+
+        // Assert
+        expect(spyConnectedCallback).toHaveBeenCalledTimes(1);
+      });
+
+      test('it call the disconnected callback where we remove the element from the DOM', async () => {
+        // Arrange
+        root.appendChild(element);
+        stopObserving = observeElement([customAttributeInstance]);
+
+        // Act
+        root.removeChild(element);
+        await digest();
+
+        // Assert
+        expect(spyDisconnectedCallback).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    describe('SubTree of body', () => {
+      let root;
+
+      beforeEach(() => {
+        root = document.createElement('section');
+        document.body.appendChild(root);
+      });
+
+      test('it call the connected callback where we add an element into the DOM', async () => {
+        // Arrange
+        stopObserving = observeElement([customAttributeInstance]);
+
+        // Act
+        root.appendChild(element);
+        await digest();
+
+        // Assert
+        expect(spyConnectedCallback).toHaveBeenCalledTimes(1);
+      });
+
+      test('it call the disconnected callback where we remove the element from the DOM', async () => {
+        // Arrange
+        root.appendChild(element);
+        stopObserving = observeElement([customAttributeInstance]);
+
+        // Act
+        root.removeChild(element);
+        await digest();
+
+        // Assert
+        expect(spyDisconnectedCallback).toHaveBeenCalledTimes(1);
+      });
     });
   });
 });
