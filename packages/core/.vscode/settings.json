@@ -1,0 +1,4 @@
+{
+  "jest.jestCommandLine": "NODE_OPTIONS=\"$NODE_OPTIONS --enable-source-maps --experimental-vm-modules\" npx jest --no-cache --config ./jest.config.json",
+  "jestrunner.configPath": "./jest.config.json"
+}

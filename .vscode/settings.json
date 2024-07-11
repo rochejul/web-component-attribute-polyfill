@@ -1,0 +1,12 @@
+{
+  "jest.jestCommandLine": "NODE_OPTIONS=\"$NODE_OPTIONS --enable-source-maps --experimental-vm-modules\" npx jest --no-cache",
+  "jest.runMode": "on-save",
+  "jest.coverageFormatter": "DefaultFormatter",
+  "jest.virtualFolders": [{ "name": "core", "rootPath": "packages/core" }],
+  "jestrunner.jestCommand": "NODE_OPTIONS=\"--experimental-vm-modules\" npx jest",
+  "jestrunner.runOptions": ["--no-cache", "--coverage=false"],
+  "jestrunner.debugOptions": {
+    "env": { "NODE_OPTIONS": "--experimental-vm-modules" },
+    "args": ["test", "--runInBand", "--no-cache", "--coverage=false"]
+  }
+}
