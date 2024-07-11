@@ -7,6 +7,13 @@
   "jestrunner.runOptions": ["--no-cache", "--coverage=false"],
   "jestrunner.debugOptions": {
     "env": { "NODE_OPTIONS": "--experimental-vm-modules" },
-    "args": ["test", "--runInBand", "--no-cache", "--coverage=false"]
+    "args": [
+      "--runInBand",
+      "--no-cache",
+      "--coverage=false",
+      "--colors",
+      "--verbose",
+      "--watchAll=false"
+    ]
   }
 }

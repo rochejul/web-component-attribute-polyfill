@@ -26,6 +26,7 @@ export default [
     },
     rules: {
       'jest/prefer-expect-assertions': 'off',
+      'jest/consistent-test-it': ['error', { fn: 'test' }],
     },
   },
 ];

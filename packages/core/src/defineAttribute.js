@@ -16,6 +16,15 @@ function isValidAttributeImpl(attributeImpl) {
   return typeof attributeImpl === 'function';
 }
 
+/**
+ * @typedef CustomAttributeImplementation
+ * @extends CustomAttribute
+ */
+
+/**
+ * @param {string} attributeName
+ * @param {CustomAttributeImplementation} attributeImpl
+ */
 export function defineAttribute(attributeName, attributeImpl) {
   if (arguments.length < 2) {
     throw new TypeError(
