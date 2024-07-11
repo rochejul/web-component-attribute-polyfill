@@ -3,12 +3,21 @@ import jest from 'eslint-plugin-jest';
 
 export default [
   {
+    files: ['**/*/*.js'],
     plugins: {
       prettier,
     },
     rules: {
       'prettier/prettier': 'warn',
     },
+    ignores: [
+      '**/.*',
+      'node_modules/*',
+      '--help/*',
+      '.husky/*',
+      '.vscode/*',
+      'images/*',
+    ],
   },
   {
     files: ['**/*/*.test.js'],
