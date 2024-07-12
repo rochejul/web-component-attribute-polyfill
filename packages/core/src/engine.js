@@ -1,5 +1,7 @@
 import { CustomAttribute, instantiateCustomAttribute } from './customAttribute';
 
+const ELEMENT_OBSERVER_SYMBOL = Symbol('elementObserver');
+
 const MutationRecordType = {
   attributes: 'attributes',
   childList: 'childList',
@@ -24,6 +26,14 @@ function isMutationRecordAttributes({ type }) {
  */
 function isMutationRecordChidList({ type }) {
   return type === MutationRecordType.childList;
+}
+
+/**
+ * @param {Element} element
+ * @returns {boolean}
+ */
+function hasShadowDom(element) {
+  return !!element.shadowRoot;
 }
 
 /**
@@ -84,6 +94,10 @@ function callConnectedCallback(mutation, customAttributeInstances) {
       customAttributeInstance.connectedCallback();
     }
   }
+
+  for (const addedNode of addedNodes.filter(hasShadowDom)) {
+    observeElement(customAttributeInstances, addedNode.shadowRoot);
+  }
 }
 
 /**
@@ -101,16 +115,40 @@ function elementMutationHandler(mutationsList, customAttributeInstances) {
 
 /**
  * @param {CustomAttribute[]} customAttributeInstances
+ * @param {Element} root
+ */
+function shadowElementTreeWalker(customAttributeInstances, root) {
+  const treeWalker = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT);
+
+  while (treeWalker.nextNode()) {
+    const node = treeWalker.currentNode;
+
+    if (hasShadowDom(node)) {
+      observeElement(customAttributeInstances, node.shadowRoot);
+    }
+  }
+}
+
+/**
+ * @param {CustomAttribute[]} customAttributeInstances
+ * @param {Element} [root=document.body]
  * @returns {stopOberveAttribute}
  */
-export function observeElement(customAttributeInstances) {
-  const config = { childList: true, subtree: true };
+export function observeElement(customAttributeInstances, root = document.body) {
+  let observer;
 
-  const observer = new MutationObserver((mutationsList) =>
-    elementMutationHandler(mutationsList, customAttributeInstances),
-  );
+  if (root[ELEMENT_OBSERVER_SYMBOL]) {
+    observer = root[ELEMENT_OBSERVER_SYMBOL];
+  } else {
+    const config = { childList: true, subtree: true };
 
-  observer.observe(globalThis.document.body, config);
+    observer = new MutationObserver((mutationsList) =>
+      elementMutationHandler(mutationsList, customAttributeInstances),
+    );
+
+    shadowElementTreeWalker(customAttributeInstances, root);
+    observer.observe(root, config);
+  }
 
   return () => {
     observer.disconnect();

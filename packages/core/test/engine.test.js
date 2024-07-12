@@ -200,5 +200,42 @@ describe('Core - engine', () => {
         expect(spyDisconnectedCallback).toHaveBeenCalledTimes(1);
       });
     });
+
+    describe('From shadow dom (open mode)', () => {
+      let root;
+
+      beforeEach(() => {
+        root = document.createElement('section');
+        document.body.appendChild(root);
+
+        root.attachShadow({ mode: 'open' });
+        root = root.shadowRoot;
+      });
+
+      test('it call the connected callback where we add an element into the DOM', async () => {
+        // Arrange
+        stopObserving = observeElement([customAttributeInstance]);
+
+        // Act
+        root.appendChild(element);
+        await digest();
+
+        // Assert
+        expect(spyConnectedCallback).toHaveBeenCalledTimes(1);
+      });
+
+      test('it call the disconnected callback where we remove the element from the DOM', async () => {
+        // Arrange
+        root.appendChild(element);
+        stopObserving = observeElement([customAttributeInstance]);
+
+        // Act
+        root.removeChild(element);
+        await digest();
+
+        // Assert
+        expect(spyDisconnectedCallback).toHaveBeenCalledTimes(2);
+      });
+    });
   });
 });
