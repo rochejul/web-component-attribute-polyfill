@@ -5,6 +5,7 @@
   "description": "Core logic of the polyfill",
   "main": "index.js",
   "scripts": {
+    "dev:linting": "eslint --config=eslint.config.js",
     "test": "NODE_OPTIONS=\"$NODE_OPTIONS --enable-source-maps --experimental-vm-modules\" npx jest --no-cache --config jest.config.json",
     "test:coverage": "npm run test -- --coverage"
   },

@@ -6,16 +6,18 @@
   "scripts": {
     "dev:format": "prettier --check \"./**/*.js\"",
     "dev:format:check": "prettier --write \"./**/*.js\"",
-    "dev:linting": "eslint --config=eslint.config.js",
+    "dev:linting": "npm run dev:linting --workspaces --if-present",
+    "dev:publish": "npm publish --workspaces",
     "dev:styling": "npm run dev:format && npm run dev:linting",
     "prepare": "husky && npx replace-in-file '#!/usr/bin/env sh' '#!/usr/bin/env bash' '.husky/_/husky.sh' --quiet && npx replace-in-file 'sh -e' 'bash -e' '.husky/_/husky.sh' --quiet",
-    "test": "npm run test --workspaces",
-    "test:coverage": "npm run test:coverage --workspaces"
+    "test": "npm run test --workspaces --if-present",
+    "test:coverage": "npm run test:coverage --workspaces --if-present"
   },
   "//": {
     "dev:format": "format files over packages",
     "dev:format:check": "check files format over packages",
     "dev:linting": "lint files over packages",
+    "dev:publish": "publish all the packages on npm registry",
     "dev:styling": "format and lint files over packages",
     "test": "run tests over packages",
     "test:coverage": "run tests over packages and see coverage reports"
