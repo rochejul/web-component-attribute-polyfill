@@ -1,9 +1,11 @@
+import { describe, test, expect } from '@jest/globals';
+
 import {
   CustomAttribute,
   instantiateCustomAttribute,
 } from '../src/customAttribute.js';
 
-describe('Core - customAttribute', () => {
+describe('core - customAttribute', () => {
   describe('instantiateCustomAttribute', () => {
     test('it generates an instance of CustomAttribute', () => {
       // Arrange

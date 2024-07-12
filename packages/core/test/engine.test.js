@@ -1,4 +1,11 @@
-import { jest } from '@jest/globals';
+import {
+  describe,
+  test,
+  expect,
+  afterEach,
+  beforeEach,
+  jest,
+} from '@jest/globals';
 
 import { observeCustomAttribute, observeElement } from '../src/engine.js';
 import {
@@ -9,7 +16,7 @@ import { getRegistry } from '../src/utils/registry';
 
 import { digest } from './jest.utils.js';
 
-describe('Core - engine', () => {
+describe('core - engine', () => {
   const spyConnectedCallback = jest.fn();
   const spyDisconnectedCallback = jest.fn();
   const spyAttributeChangedCallback = jest.fn();
@@ -122,11 +129,12 @@ describe('Core - engine', () => {
   });
 
   describe('observeElement', () => {
-    let element = document.createElement('div');
+    let element;
     let customAttributeInstance;
     let stopObserving;
 
     beforeEach(() => {
+      element = document.createElement('div');
       customAttributeInstance = instantiateCustomAttribute(
         element,
         MyOwnAttribute,
@@ -138,7 +146,7 @@ describe('Core - engine', () => {
       stopObserving = null;
     });
 
-    describe('Root of body', () => {
+    describe('root of body', () => {
       const root = document.body;
 
       test('it call the connected callback where we add an element into the DOM', async () => {
@@ -167,7 +175,7 @@ describe('Core - engine', () => {
       });
     });
 
-    describe('SubTree of body', () => {
+    describe('subTree of body', () => {
       let root;
 
       beforeEach(() => {
@@ -201,7 +209,7 @@ describe('Core - engine', () => {
       });
     });
 
-    describe('From shadow dom (open mode)', () => {
+    describe('from shadow dom (open mode)', () => {
       let root;
 
       beforeEach(() => {
@@ -234,7 +242,7 @@ describe('Core - engine', () => {
         await digest();
 
         // Assert
-        expect(spyDisconnectedCallback).toHaveBeenCalledTimes(2);
+        expect(spyDisconnectedCallback).toHaveBeenCalledTimes(1);
       });
     });
   });

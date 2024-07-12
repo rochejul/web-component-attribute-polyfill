@@ -1,4 +1,4 @@
-import { CustomAttribute, instantiateCustomAttribute } from './customAttribute';
+import { instantiateCustomAttribute } from './customAttribute';
 
 const ELEMENT_OBSERVER_SYMBOL = Symbol('elementObserver');
 

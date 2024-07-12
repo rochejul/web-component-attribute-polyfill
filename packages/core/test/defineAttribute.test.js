@@ -1,7 +1,9 @@
+import { describe, test, expect, afterEach } from '@jest/globals';
+
 import { defineAttribute } from '../src/defineAttribute';
 import { getRegistry } from '../src/utils/registry';
 
-describe('Core - defineAttribute', () => {
+describe('core - defineAttribute', () => {
   const registry = getRegistry();
 
   afterEach(() => {
@@ -10,7 +12,7 @@ describe('Core - defineAttribute', () => {
 
   test('it should be a function', () => {
     // Assert
-    expect(defineAttribute).toEqual(expect.any(Function));
+    expect(defineAttribute).toStrictEqual(expect.any(Function));
   });
 
   describe('validation', () => {
@@ -117,8 +119,8 @@ describe('Core - defineAttribute', () => {
     defineAttribute('hx-post', implementation);
 
     // Assert
-    expect(registry.size()).toEqual(1);
-    expect(registry.get('hx-post')).toEqual(implementation);
+    expect(registry.size()).toBe(1);
+    expect(registry.get('hx-post')).toStrictEqual(implementation);
   });
 
   test('it should raise an exception if we register the custom attribute more than once', () => {

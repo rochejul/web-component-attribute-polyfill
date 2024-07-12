@@ -1,6 +1,6 @@
 import { getRegistry } from './utils/registry';
 
-const ATTR_NAME_NAME_ALLOWED_REGEXP = /^[A-Za-z0-9\-]*$/;
+const ATTR_NAME_NAME_ALLOWED_REGEXP = /^[A-Za-z0-9-]*$/;
 
 function isValidAttributeName(attributeName) {
   return (

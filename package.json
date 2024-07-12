@@ -6,7 +6,7 @@
   "scripts": {
     "dev:format": "prettier --check \"./**/*.js\"",
     "dev:format:check": "prettier --write \"./**/*.js\"",
-    "dev:linting": "eslint --config=.eslintrc.js",
+    "dev:linting": "eslint --config=eslint.config.js",
     "dev:styling": "npm run dev:format && npm run dev:linting",
     "prepare": "husky && npx replace-in-file '#!/usr/bin/env sh' '#!/usr/bin/env bash' '.husky/_/husky.sh' --quiet && npx replace-in-file 'sh -e' 'bash -e' '.husky/_/husky.sh' --quiet",
     "test": "npm run test --workspaces",

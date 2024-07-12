@@ -15,7 +15,7 @@ export class CustomAttribute {
    * @param {object|undefined} oldValue
    * @param {object|undefined} newValue
    */
-  attributeChangedCallback(name, oldValue, newValue) {}
+  attributeChangedCallback(/*name, oldValue, newValue*/) {}
 
   connectedCallback() {}
 
