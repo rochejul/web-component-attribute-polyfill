@@ -1,40 +1,15 @@
 import { instantiateCustomAttribute } from './customAttribute';
-
-const ELEMENT_OBSERVER_SYMBOL = Symbol('elementObserver');
-
-const MutationRecordType = {
-  attributes: 'attributes',
-  childList: 'childList',
-};
+import {
+  isMutationRecordAttributes,
+  isMutationRecordChidList,
+} from './utils/mutation';
+import { hasShadowDom, findElementsWithAttr } from './utils/dom';
+import { getRegistry } from './utils/registry';
 
 /**
  * To stop observing the attribute
- * @callback stopOberveAttribute
+ * @callback stopObserveAttribute
  */
-
-/**
- * @param {MutationRecord} mutation
- * @returns {boolean}
- */
-function isMutationRecordAttributes({ type }) {
-  return type === MutationRecordType.attributes;
-}
-
-/**
- * @param {MutationRecord} mutation
- * @returns {boolean}
- */
-function isMutationRecordChidList({ type }) {
-  return type === MutationRecordType.childList;
-}
-
-/**
- * @param {Element} element
- * @returns {boolean}
- */
-function hasShadowDom(element) {
-  return !!element.shadowRoot;
-}
 
 /**
  * @param {MutationRecord[]} mutationsList
@@ -132,23 +107,56 @@ function shadowElementTreeWalker(customAttributeInstances, root) {
 /**
  * @param {CustomAttribute[]} customAttributeInstances
  * @param {Element} [root=document.body]
- * @returns {stopOberveAttribute}
+ * @returns {stopObserveAttribute}
  */
 export function observeElement(customAttributeInstances, root = document.body) {
-  let observer;
+  const config = { childList: true, subtree: true };
 
-  if (root[ELEMENT_OBSERVER_SYMBOL]) {
-    observer = root[ELEMENT_OBSERVER_SYMBOL];
-  } else {
-    const config = { childList: true, subtree: true };
+  const observer = new MutationObserver((mutationsList) =>
+    elementMutationHandler(mutationsList, customAttributeInstances),
+  );
 
-    observer = new MutationObserver((mutationsList) =>
-      elementMutationHandler(mutationsList, customAttributeInstances),
-    );
+  shadowElementTreeWalker(customAttributeInstances, root);
+  observer.observe(root, config);
 
-    shadowElementTreeWalker(customAttributeInstances, root);
-    observer.observe(root, config);
-  }
+  return () => {
+    observer.disconnect();
+  };
+}
+
+export function observeAlreadyDeclaredAttr(attrName, root = document.body) {
+  const registry = getRegistry();
+  findElementsWithAttr(root, attrName).forEach((element) => {
+    observeCustomAttribute(element, attrName, registry.get(attrName));
+  });
+}
+
+/**
+ * @param {Element} [root=document.body]
+ * @returns {stopObserveAttribute}
+ */
+export function observeAttributes(root = document.body) {
+  const registry = getRegistry();
+  const config = {
+    attributes: true,
+  };
+
+  const observer = new MutationObserver((mutationsList) => {
+    for (const mutation of mutationsList) {
+      if (
+        isMutationRecordAttributes(mutation) &&
+        registry.has(mutation.attributeName)
+      ) {
+        observeCustomAttribute(
+          mutation.target,
+          mutation.attributeName,
+          registry.get(mutation.attributeName),
+        );
+      }
+    }
+  });
+
+  observer.observe(root, config);
 
   return () => {
     observer.disconnect();
@@ -160,7 +168,7 @@ export function observeElement(customAttributeInstances, root = document.body) {
  * @param {Element} element
  * @param {string} attributeName
  * @param {CustomAttribute} customAttributeInstance
- * @returns {stopOberveAttribute}
+ * @returns {stopObserveAttribute}
  */
 function observeAttribute(element, attributeName, customAttributeInstance) {
   const config = {
@@ -169,18 +177,20 @@ function observeAttribute(element, attributeName, customAttributeInstance) {
     attributeFilter: [attributeName],
   };
 
-  const observer = new MutationObserver((mutationsList) =>
+  const attributeObserver = new MutationObserver((mutationsList) => {
     attributeMutationHandler(
       mutationsList,
       attributeName,
       customAttributeInstance,
-    ),
-  );
+    );
+  });
 
-  observer.observe(element, config);
+  attributeObserver.observe(element, config);
+
+  // TODO aslo need a treeWalker
 
   return () => {
-    observer.disconnect();
+    attributeObserver.disconnect();
   };
 }
 
@@ -188,7 +198,7 @@ function observeAttribute(element, attributeName, customAttributeInstance) {
  * @param {Element} element
  * @param {string} attributeName
  * @param {CustomAttributeImplementation} attributeImpl
- * @returns {stopOberveAttribute}
+ * @returns {stopObserveAttribute}
  */
 export function observeCustomAttribute(element, attributeName, attributeImpl) {
   const customAttributeInstance = instantiateCustomAttribute(
@@ -200,6 +210,7 @@ export function observeCustomAttribute(element, attributeName, attributeImpl) {
     customAttributeInstance.connectedCallback();
   }
 
+  const stopObserveElement = observeElement([customAttributeInstance], element);
   const stopObserveAttribute = observeAttribute(
     element,
     attributeName,
@@ -208,5 +219,6 @@ export function observeCustomAttribute(element, attributeName, attributeImpl) {
 
   return () => {
     stopObserveAttribute();
+    stopObserveElement();
   };
 }

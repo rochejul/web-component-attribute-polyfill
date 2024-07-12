@@ -9,6 +9,14 @@ class Registry {
     return this.#attributes[name];
   }
 
+  getAttributeNames() {
+    return Object.keys(this.#attributes);
+  }
+
+  has(name) {
+    return !!this.get(name);
+  }
+
   put(name, instance) {
     this.#attributes[name] = instance;
   }
