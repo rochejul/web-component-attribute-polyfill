@@ -10,11 +10,11 @@ import {
 } from './utils/dom';
 import { Registry } from './utils/registry';
 
-import { instantiateCustomAttribute } from './customAttribute';
+import { instantiateCustomAttribute } from './api/customAttribute.js';
 import {
   defineAttribute as defineAttributeApi,
   getRegistry as getCustomAttributeRegistry,
-} from './defineAttribute.js';
+} from './api/defineAttribute.js';
 
 let registryInstance = new Registry();
 

@@ -1,6 +1,6 @@
 import { describe, test, expect, afterEach } from '@jest/globals';
 
-import { defineAttribute, getRegistry } from '../src/defineAttribute';
+import { defineAttribute, getRegistry } from '../src/api/defineAttribute';
 
 describe('core - defineAttribute', () => {
   const registry = getRegistry();

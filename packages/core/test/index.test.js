@@ -6,8 +6,8 @@ import {
   beforeEach,
   jest,
 } from '@jest/globals';
-import { getRegistry } from '../src/defineAttribute.js';
-import { CustomAttribute } from '../src/customAttribute.js';
+import { getRegistry } from '../src/api/defineAttribute.js';
+import { CustomAttribute } from '../src/api/customAttribute.js';
 import { digest } from './jest.utils.js';
 import '../src/index';
 

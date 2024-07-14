@@ -3,7 +3,7 @@ import { describe, test, expect } from '@jest/globals';
 import {
   CustomAttribute,
   instantiateCustomAttribute,
-} from '../src/customAttribute.js';
+} from '../src/api/customAttribute.js';
 
 describe('core - customAttribute', () => {
   describe('instantiateCustomAttribute', () => {

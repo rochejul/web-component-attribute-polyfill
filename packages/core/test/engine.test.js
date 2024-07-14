@@ -12,11 +12,11 @@ import {
   observeAttributes,
   getRegistry as getInstancesRegistry,
 } from '../src/engine.js';
-import { CustomAttribute } from '../src/customAttribute.js';
+import { CustomAttribute } from '../src/api/customAttribute.js';
 import {
   defineAttribute,
   getRegistry as getCustomAttributeRegistry,
-} from '../src/defineAttribute';
+} from '../src/api/defineAttribute';
 
 import { digest } from './jest.utils.js';
 
