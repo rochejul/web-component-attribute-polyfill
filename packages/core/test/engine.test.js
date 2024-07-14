@@ -7,12 +7,16 @@ import {
   jest,
 } from '@jest/globals';
 
-import { observeCustomAttribute, observeElement } from '../src/engine.js';
 import {
-  CustomAttribute,
-  instantiateCustomAttribute,
-} from '../src/customAttribute.js';
-import { getRegistry } from '../src/utils/registry';
+  observeCustomAttribute,
+  observeAttributes,
+  getRegistry as getInstancesRegistry,
+} from '../src/engine.js';
+import { CustomAttribute } from '../src/customAttribute.js';
+import {
+  defineAttribute,
+  getRegistry as getCustomAttributeRegistry,
+} from '../src/defineAttribute';
 
 import { digest } from './jest.utils.js';
 
@@ -20,7 +24,9 @@ describe('core - engine', () => {
   const spyConnectedCallback = jest.fn();
   const spyDisconnectedCallback = jest.fn();
   const spyAttributeChangedCallback = jest.fn();
-  const registry = getRegistry();
+
+  const customAttributesRegistry = getCustomAttributeRegistry();
+  const instancesRegistry = getInstancesRegistry();
 
   class MyOwnAttribute extends CustomAttribute {
     attributeChangedCallback(name, oldValue, newValue) {
@@ -38,20 +44,42 @@ describe('core - engine', () => {
 
   beforeEach(() => {
     document.body.textContent = '';
+    customAttributesRegistry.clear();
+    instancesRegistry.clear();
   });
 
   afterEach(() => {
-    registry.clear();
+    customAttributesRegistry.clear();
+    instancesRegistry.clear();
   });
 
   describe('observeCustomAttribute', () => {
+    let element;
+    let stopObserving;
+
+    beforeEach(() => {
+      element = document.createElement('div');
+      element.setAttribute('hx-post', 'some-value');
+
+      defineAttribute('hx-post', MyOwnAttribute);
+    });
+
+    afterEach(() => {
+      stopObserving?.();
+      stopObserving = null;
+    });
+
     describe('when we call it', () => {
       test('when not connected, no handlers were called', () => {
         // Arrange
         const element = document.createElement('div');
 
         // Act
-        observeCustomAttribute(element, 'hx-post', MyOwnAttribute);
+        stopObserving = observeCustomAttribute(
+          element,
+          'hx-post',
+          MyOwnAttribute,
+        );
 
         // Assert
         expect(spyConnectedCallback).not.toHaveBeenCalled();
@@ -65,7 +93,11 @@ describe('core - engine', () => {
         document.body.appendChild(element);
 
         // Act
-        observeCustomAttribute(element, 'hx-post', MyOwnAttribute);
+        stopObserving = observeCustomAttribute(
+          element,
+          'hx-post',
+          MyOwnAttribute,
+        );
 
         // Assert
         expect(spyConnectedCallback).toHaveBeenCalledTimes(1);
@@ -78,7 +110,7 @@ describe('core - engine', () => {
         const element = document.createElement('div');
 
         // Act
-        const stopObserving = observeCustomAttribute(
+        stopObserving = observeCustomAttribute(
           element,
           'hx-post',
           MyOwnAttribute,
@@ -107,13 +139,30 @@ describe('core - engine', () => {
       );
     });
 
+    test('it calls the attribute changed callback when the attribute is added', async () => {
+      // Arrange
+      const element = document.createElement('div');
+
+      // Act
+      observeCustomAttribute(element, 'hx-post', MyOwnAttribute);
+      element.setAttribute('hx-post', 'some-value');
+      await digest();
+
+      // Assert
+      expect(spyAttributeChangedCallback).toHaveBeenCalledWith(
+        'hx-post',
+        null,
+        'some-value',
+      );
+    });
+
     test('it should not call the attribute changed callback when we execute the returned function', async () => {
       // Arrange
       const element = document.createElement('div');
       element.setAttribute('hx-post', 'old-value');
 
       // act
-      const stopObserving = observeCustomAttribute(
+      stopObserving = observeCustomAttribute(
         element,
         'hx-post',
         MyOwnAttribute,
@@ -128,17 +177,15 @@ describe('core - engine', () => {
     });
   });
 
-  describe('observeElement', () => {
+  describe('observeAttributes', () => {
     let element;
-    let customAttributeInstance;
     let stopObserving;
 
     beforeEach(() => {
       element = document.createElement('div');
-      customAttributeInstance = instantiateCustomAttribute(
-        element,
-        MyOwnAttribute,
-      );
+      element.setAttribute('hx-post', 'some-value');
+
+      defineAttribute('hx-post', MyOwnAttribute);
     });
 
     afterEach(() => {
@@ -149,9 +196,21 @@ describe('core - engine', () => {
     describe('root of body', () => {
       const root = document.body;
 
+      test('it call the connected callback where we already added element in DOM', async () => {
+        // Arrange
+        root.appendChild(element);
+
+        // Act
+        stopObserving = observeAttributes();
+        await digest();
+
+        // Assert
+        expect(spyConnectedCallback).toHaveBeenCalledTimes(1);
+      });
+
       test('it call the connected callback where we add an element into the DOM', async () => {
         // Arrange
-        stopObserving = observeElement([customAttributeInstance]);
+        stopObserving = observeAttributes();
 
         // Act
         root.appendChild(element);
@@ -164,7 +223,7 @@ describe('core - engine', () => {
       test('it call the disconnected callback where we remove the element from the DOM', async () => {
         // Arrange
         root.appendChild(element);
-        stopObserving = observeElement([customAttributeInstance]);
+        stopObserving = observeAttributes();
 
         // Act
         root.removeChild(element);
@@ -183,9 +242,21 @@ describe('core - engine', () => {
         document.body.appendChild(root);
       });
 
+      test('it call the connected callback where we already added element in DOM', async () => {
+        // Arrange
+        root.appendChild(element);
+
+        // Act
+        stopObserving = observeAttributes();
+        await digest();
+        root;
+        // Assert
+        expect(spyConnectedCallback).toHaveBeenCalledTimes(1);
+      });
+
       test('it call the connected callback where we add an element into the DOM', async () => {
         // Arrange
-        stopObserving = observeElement([customAttributeInstance]);
+        stopObserving = observeAttributes();
 
         // Act
         root.appendChild(element);
@@ -198,7 +269,7 @@ describe('core - engine', () => {
       test('it call the disconnected callback where we remove the element from the DOM', async () => {
         // Arrange
         root.appendChild(element);
-        stopObserving = observeElement([customAttributeInstance]);
+        stopObserving = observeAttributes();
 
         // Act
         root.removeChild(element);
@@ -220,9 +291,21 @@ describe('core - engine', () => {
         root = root.shadowRoot;
       });
 
+      test('it call the connected callback where we already added element in DOM', async () => {
+        // Arrange
+        root.appendChild(element);
+
+        // Act
+        stopObserving = observeAttributes();
+        await digest();
+
+        // Assert
+        expect(spyConnectedCallback).toHaveBeenCalledTimes(1);
+      });
+
       test('it call the connected callback where we add an element into the DOM', async () => {
         // Arrange
-        stopObserving = observeElement([customAttributeInstance]);
+        stopObserving = observeAttributes(root);
 
         // Act
         root.appendChild(element);
@@ -235,7 +318,7 @@ describe('core - engine', () => {
       test('it call the disconnected callback where we remove the element from the DOM', async () => {
         // Arrange
         root.appendChild(element);
-        stopObserving = observeElement([customAttributeInstance]);
+        stopObserving = observeAttributes();
 
         // Act
         root.removeChild(element);

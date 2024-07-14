@@ -1,5 +1,13 @@
 /**
  * @param {Element} element
+ * @returns {string[]}
+ */
+export function getDeclaredAttributes(element) {
+  return Array.from(element.attributes).map(({ name }) => name);
+}
+
+/**
+ * @param {Element} element
  * @returns {boolean}
  */
 export function hasShadowDom(element) {

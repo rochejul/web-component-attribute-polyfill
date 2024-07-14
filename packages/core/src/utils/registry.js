@@ -1,33 +1,32 @@
-class Registry {
-  #attributes = {};
+export class Registry {
+  #mapping = new Map();
 
   clear() {
-    this.#attributes = {};
+    this.#mapping.clear();
   }
 
-  get(name) {
-    return this.#attributes[name];
+  get(key) {
+    return this.#mapping.get(key);
   }
 
-  getAttributeNames() {
-    return Object.keys(this.#attributes);
+  getKeys() {
+    return Array.from(this.#mapping.keys());
   }
 
-  has(name) {
-    return !!this.get(name);
+  has(key) {
+    const hash = key?.toString() ?? key;
+    return this.getKeys().find((entry) => entry.toString() === hash);
   }
 
-  put(name, instance) {
-    this.#attributes[name] = instance;
+  remove(key) {
+    this.#mapping.delete(key);
+  }
+
+  put(key, instance) {
+    this.#mapping.set(key, instance);
   }
 
   size() {
-    return Object.keys(this.#attributes).length;
+    return this.getKeys().length;
   }
-}
-
-let registryInstance = new Registry();
-
-export function getRegistry() {
-  return registryInstance;
 }

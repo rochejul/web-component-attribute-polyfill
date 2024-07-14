@@ -1,10 +1,99 @@
-import { instantiateCustomAttribute } from './customAttribute';
 import {
   isMutationRecordAttributes,
   isMutationRecordChidList,
 } from './utils/mutation';
-import { hasShadowDom, findElementsWithAttr } from './utils/dom';
-import { getRegistry } from './utils/registry';
+import {
+  getDeclaredAttributes,
+  hasShadowDom,
+  findShadowElements,
+  findElementsWithAttr,
+} from './utils/dom';
+import { Registry } from './utils/registry';
+
+import { instantiateCustomAttribute } from './customAttribute';
+import {
+  defineAttribute as defineAttributeApi,
+  getRegistry as getCustomAttributeRegistry,
+} from './defineAttribute.js';
+
+let registryInstance = new Registry();
+
+export function getRegistry() {
+  return registryInstance;
+}
+
+class CustomAttributeInstance {
+  #attributeName;
+  #element;
+  #connected = false;
+
+  static #ELEMENT_ID_SYMBOL = Symbol('elementID');
+
+  constructor(attributeName, element) {
+    this.#attributeName = attributeName;
+    this.#element = element;
+
+    if (!this.#element[CustomAttributeInstance.#ELEMENT_ID_SYMBOL]) {
+      this.#element[CustomAttributeInstance.#ELEMENT_ID_SYMBOL] =
+        crypto.randomUUID();
+    }
+  }
+
+  isConnected() {
+    return this.#connected;
+  }
+
+  isElement(element) {
+    return this.#element === element;
+  }
+
+  toggleConnected() {
+    this.#connected = !this.#connected;
+  }
+
+  toString() {
+    return `CustomAttributeInstance::${this.#attributeName}::${this.#element[CustomAttributeInstance.#ELEMENT_ID_SYMBOL]}`;
+  }
+}
+
+/**
+ * @param {Element} element
+ * @returns {{ key: CustomAttributeInstance, customAttributeInstance: CustomAttribute }[]}
+ */
+function getRegistryEntriesForElement(element) {
+  return registryInstance
+    .getKeys()
+    .filter((key) => key.isElement(element))
+    .map((key) => ({
+      key,
+      customAttributeInstance: registryInstance.get(key),
+    }));
+}
+
+/**
+ * @param {CustomAttributeInstance} key
+ */
+function appyConnectedCallback(key) {
+  if (key.isConnected()) {
+    return;
+  }
+
+  key.toggleConnected();
+  registryInstance.get(key).connectedCallback();
+}
+
+/**
+ * @param {CustomAttributeInstance} key
+ */
+function appyDisconnectedCallback(key) {
+  if (!key.isConnected()) {
+    return;
+  }
+
+  key.toggleConnected();
+  registryInstance.get(key).disconnectedCallback();
+  registryInstance.remove(key);
+}
 
 /**
  * To stop observing the attribute
@@ -37,126 +126,83 @@ function attributeMutationHandler(
 
 /**
  * @param {MutationRecord} mutation
- * @param {CustomAttribute[]} customAttributeInstances
  */
-function callDisconnectedCallback(mutation, customAttributeInstances) {
+function callDisconnectedCallback(mutation) {
   const removedNodes = Array.from(mutation.removedNodes);
 
-  if (!removedNodes.length || !customAttributeInstances.length) {
+  if (!removedNodes.length) {
     return;
   }
 
-  for (const customAttributeInstance of customAttributeInstances) {
-    if (removedNodes.includes(customAttributeInstance.element)) {
-      customAttributeInstance.disconnectedCallback();
+  for (const removedNode of removedNodes) {
+    getRegistryEntriesForElement(removedNode).forEach(({ key }) => {
+      appyDisconnectedCallback(key);
+    });
+
+    if (hasShadowDom(removedNode)) {
+      // TODO we clean also here
     }
   }
 }
 
 /**
  * @param {MutationRecord} mutation
- * @param {CustomAttribute[]} customAttributeInstances
  */
-function callConnectedCallback(mutation, customAttributeInstances) {
+function callConnectedCallback(mutation) {
   const addedNodes = Array.from(mutation.addedNodes);
 
-  if (!addedNodes.length || !customAttributeInstances.length) {
+  if (!addedNodes.length) {
     return;
   }
 
-  for (const customAttributeInstance of customAttributeInstances) {
-    if (addedNodes.includes(customAttributeInstance.element)) {
-      customAttributeInstance.connectedCallback();
-    }
-  }
+  const registry = getCustomAttributeRegistry();
+  const attributes = registry.getKeys();
 
-  for (const addedNode of addedNodes.filter(hasShadowDom)) {
-    observeElement(customAttributeInstances, addedNode.shadowRoot);
+  for (const addedNode of addedNodes) {
+    const entries = getRegistryEntriesForElement(addedNode);
+
+    if (entries.length > 0) {
+      entries.forEach(({ key }) => appyConnectedCallback(key));
+    } else {
+      const declaredAttributes = getDeclaredAttributes(addedNode);
+      const intersection = declaredAttributes.filter((x) =>
+        attributes.includes(x),
+      );
+      intersection.forEach((attrName) =>
+        observeAlreadyDeclaredAttr(attrName, addedNode),
+      );
+    }
+
+    if (hasShadowDom(addedNode)) {
+      observeAttributes(addedNode.shadowRoot);
+    }
   }
 }
 
-/**
+/*
  * @param {MutationRecord[]} mutationsList
- * @param {CustomAttribute[]} customAttributeInstances
  */
-function elementMutationHandler(mutationsList, customAttributeInstances) {
+function elementMutationHandler(mutationsList) {
   for (const mutation of mutationsList) {
     if (isMutationRecordChidList(mutation)) {
-      callDisconnectedCallback(mutation, customAttributeInstances);
-      callConnectedCallback(mutation, customAttributeInstances);
+      callDisconnectedCallback(mutation);
+      callConnectedCallback(mutation);
     }
   }
 }
 
 /**
- * @param {CustomAttribute[]} customAttributeInstances
- * @param {Element} root
- */
-function shadowElementTreeWalker(customAttributeInstances, root) {
-  const treeWalker = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT);
-
-  while (treeWalker.nextNode()) {
-    const node = treeWalker.currentNode;
-
-    if (hasShadowDom(node)) {
-      observeElement(customAttributeInstances, node.shadowRoot);
-    }
-  }
-}
-
-/**
- * @param {CustomAttribute[]} customAttributeInstances
  * @param {Element} [root=document.body]
  * @returns {stopObserveAttribute}
  */
-export function observeElement(customAttributeInstances, root = document.body) {
+function observeElement(root = document.body) {
   const config = { childList: true, subtree: true };
-
-  const observer = new MutationObserver((mutationsList) =>
-    elementMutationHandler(mutationsList, customAttributeInstances),
-  );
-
-  shadowElementTreeWalker(customAttributeInstances, root);
+  const observer = new MutationObserver(elementMutationHandler);
   observer.observe(root, config);
 
-  return () => {
-    observer.disconnect();
-  };
-}
-
-export function observeAlreadyDeclaredAttr(attrName, root = document.body) {
-  const registry = getRegistry();
-  findElementsWithAttr(root, attrName).forEach((element) => {
-    observeCustomAttribute(element, attrName, registry.get(attrName));
-  });
-}
-
-/**
- * @param {Element} [root=document.body]
- * @returns {stopObserveAttribute}
- */
-export function observeAttributes(root = document.body) {
-  const registry = getRegistry();
-  const config = {
-    attributes: true,
-  };
-
-  const observer = new MutationObserver((mutationsList) => {
-    for (const mutation of mutationsList) {
-      if (
-        isMutationRecordAttributes(mutation) &&
-        registry.has(mutation.attributeName)
-      ) {
-        observeCustomAttribute(
-          mutation.target,
-          mutation.attributeName,
-          registry.get(mutation.attributeName),
-        );
-      }
-    }
-  });
-
-  observer.observe(root, config);
+  findShadowElements(root)
+    .map(({ shadowRoot }) => shadowRoot)
+    .map(observeAttributes);
 
   return () => {
     observer.disconnect();
@@ -187,11 +233,38 @@ function observeAttribute(element, attributeName, customAttributeInstance) {
 
   attributeObserver.observe(element, config);
 
-  // TODO aslo need a treeWalker
-
   return () => {
     attributeObserver.disconnect();
   };
+}
+
+/**
+ * @param {string} attributeName
+ * @param {Element} [root=document.body]
+ */
+function observeAlreadyDeclaredAttr(attrName, root = document.body) {
+  const registry = getCustomAttributeRegistry();
+  const customAttributeInstance = registry.get(attrName);
+
+  findElementsWithAttr(root, attrName).forEach((element) => {
+    observeCustomAttribute(element, attrName, customAttributeInstance);
+  });
+
+  if (root.hasAttribute?.(attrName)) {
+    observeCustomAttribute(root, attrName, customAttributeInstance);
+  }
+}
+
+/**
+ * @param {Element} [root=document.body]
+ */
+function observeAlreadyDeclaredAttrs(root = document.body) {
+  const registry = getCustomAttributeRegistry();
+  const attributeNames = registry.getKeys();
+
+  attributeNames.forEach((attrName) =>
+    observeAlreadyDeclaredAttr(attrName, root),
+  );
 }
 
 /**
@@ -201,16 +274,23 @@ function observeAttribute(element, attributeName, customAttributeInstance) {
  * @returns {stopObserveAttribute}
  */
 export function observeCustomAttribute(element, attributeName, attributeImpl) {
+  const key = new CustomAttributeInstance(attributeName, element);
+
+  if (registryInstance.has(key)) {
+    return () => {};
+  }
+
   const customAttributeInstance = instantiateCustomAttribute(
     element,
     attributeImpl,
   );
 
+  registryInstance.put(key, customAttributeInstance);
+
   if (element.isConnected) {
-    customAttributeInstance.connectedCallback();
+    appyConnectedCallback(key);
   }
 
-  const stopObserveElement = observeElement([customAttributeInstance], element);
   const stopObserveAttribute = observeAttribute(
     element,
     attributeName,
@@ -219,6 +299,27 @@ export function observeCustomAttribute(element, attributeName, attributeImpl) {
 
   return () => {
     stopObserveAttribute();
+  };
+}
+
+/**
+ * @param {Element} [root=document.body]
+ * @returns {stopObserveAttribute}
+ */
+export function observeAttributes(root = document.body) {
+  const stopObserveElement = observeElement(root);
+  observeAlreadyDeclaredAttrs(root);
+
+  return () => {
     stopObserveElement();
   };
+}
+
+/**
+ * @param {string} attributeName
+ * @param {CustomAttributeImplementation} attributeImpl
+ */
+export function defineAttribute(attributeName, attributeImpl) {
+  defineAttributeApi(attributeName, attributeImpl);
+  observeAlreadyDeclaredAttr(attributeName);
 }

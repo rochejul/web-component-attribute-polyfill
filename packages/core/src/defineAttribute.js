@@ -1,4 +1,4 @@
-import { getRegistry } from './utils/registry';
+import { Registry } from './utils/registry';
 
 const ATTR_NAME_NAME_ALLOWED_REGEXP = /^[A-Za-z0-9-]*$/;
 
@@ -20,6 +20,12 @@ function isValidAttributeImpl(attributeImpl) {
  * @typedef CustomAttributeImplementation
  * @extends CustomAttribute
  */
+
+let registryInstance = new Registry();
+
+export function getRegistry() {
+  return registryInstance;
+}
 
 /**
  * @param {string} attributeName
@@ -44,13 +50,11 @@ export function defineAttribute(attributeName, attributeImpl) {
     );
   }
 
-  const registry = getRegistry();
-
-  if (registry.get(attributeName)) {
+  if (registryInstance.has(attributeName)) {
     throw new DOMException(
       `Failed to execute 'defineAttribute' on 'CustomElementRegistry': the name "${attributeName}" has already been used with this registry`,
     );
   }
 
-  registry.put(attributeName, attributeImpl);
+  registryInstance.put(attributeName, attributeImpl);
 }

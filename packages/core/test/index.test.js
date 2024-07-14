@@ -6,7 +6,7 @@ import {
   beforeEach,
   jest,
 } from '@jest/globals';
-import { getRegistry } from '../src/utils/registry';
+import { getRegistry } from '../src/defineAttribute.js';
 import { CustomAttribute } from '../src/customAttribute.js';
 import { digest } from './jest.utils.js';
 import '../src/index';
@@ -37,6 +37,11 @@ describe('core - index', () => {
 
   afterEach(() => {
     registry.clear();
+  });
+
+  test('it exposes on the CustomAttribute class on the global context', () => {
+    // Assert
+    expect(globalThis.CustomAttribute).toBeDefined();
   });
 
   test('it exposes on the customElement property the defineAttribute method', () => {
