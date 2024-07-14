@@ -1,18 +1,9 @@
-import {
-  describe,
-  test,
-  expect,
-  afterEach,
-  beforeEach,
-  jest,
-} from '@jest/globals';
-import { getRegistry } from '../src/api/defineAttribute.js';
+import { describe, test, expect, jest } from '@jest/globals';
 import { CustomAttribute } from '../src/api/customAttribute.js';
 import { digest } from './jest.utils.js';
-import '../src/index';
+import '../src/index.js';
 
 describe('core - index', () => {
-  const registry = getRegistry();
   const spyConnectedCallback = jest.fn();
   const spyDisconnectedCallback = jest.fn();
   const spyAttributeChangedCallback = jest.fn();
@@ -30,14 +21,6 @@ describe('core - index', () => {
       spyDisconnectedCallback.apply(this, []);
     }
   }
-
-  beforeEach(() => {
-    document.body.textContent = '';
-  });
-
-  afterEach(() => {
-    registry.clear();
-  });
 
   test('it exposes on the CustomAttribute class on the global context', () => {
     // Assert
