@@ -4,6 +4,10 @@
   "description": "Typescript definition of the polyfill",
   "main": "./build/index.js",
   "types": "./src/index.d.ts",
+  "files": [
+    "./build",
+    "./src"
+  ],
   "exports": {
     ".": {
       "types": "./src/index.d.ts",
@@ -12,10 +16,12 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "dev:build": "tsc --build"
+    "dev:build": "tsc --build",
+    "test": "check-dts"
   },
   "//": {
-    "dev:build": "Generate the typings from Typescrip's definition files"
+    "dev:build": "Generate the typings from Typescrip's definition files",
+    "test": "ensure we define correclty the definitions"
   },
   "keywords": [
     "Typescript",
@@ -24,6 +30,8 @@
   ],
   "license": "MIT",
   "devDependencies": {
+    "@web-component-attribute-polyfill/core": "1.0.0",
+    "check-dts": "0.8.0",
     "typescript": "5.5.3"
   },
   "engines": {
