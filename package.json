@@ -4,8 +4,8 @@
   "type": "module",
   "description": "Create a polyfill to allow to have an \"attribute\" web component (rather a tag web component)",
   "scripts": {
-    "dev:format": "prettier --check \"./**/*.js\"",
-    "dev:format:check": "prettier --write \"./**/*.js\"",
+    "dev:format": "prettier --check \"./**/*.{ts,tsx,js,mjs,cjs,md}\"",
+    "dev:format:check": "prettier --write \"./**/*.{ts,tsx,js,mjs,cjs,md}\"",
     "dev:linting": "npm run dev:linting --workspaces --if-present",
     "dev:publish": "npm publish --workspaces",
     "dev:styling": "npm run dev:format && npm run dev:linting",

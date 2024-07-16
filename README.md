@@ -30,3 +30,7 @@ We should extend the `CustomAttribute` class which exposes:
 - the `disconnectedCallback` method used when the element where is used the custom attribute is removed from the DOM
 - the `attributeChangedCallback` method used when the custom attribute's value has changed
 - the `element` property which reflects the element where is used the custom attribute
+
+## Contributing
+
+- [Guidelines](./docs/GUIDELINES.md)
