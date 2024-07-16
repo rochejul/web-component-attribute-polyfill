@@ -27,7 +27,7 @@ function appyConnectedCallback(key) {
   }
 
   key.toggleConnected();
-  getInstancesRegistry().get(key).connectedCallback();
+  getInstancesRegistry().get(key).connectedCallback?.();
 }
 
 /**
@@ -39,7 +39,7 @@ function appyDisconnectedCallback(key) {
   }
 
   key.toggleConnected();
-  getInstancesRegistry().get(key).disconnectedCallback();
+  getInstancesRegistry().get(key).disconnectedCallback?.();
   getInstancesRegistry().remove(key);
 }
 
@@ -63,7 +63,7 @@ function attributeMutationHandler(
       isMutationRecordAttributes(mutation) &&
       mutation.attributeName === attributeName
     ) {
-      customAttributeInstance.attributeChangedCallback(
+      customAttributeInstance.attributeChangedCallback?.(
         attributeName,
         mutation.oldValue,
         mutation.target.getAttribute(attributeName),
