@@ -1,5 +1,5 @@
 import { describe, test, expect, jest } from '@jest/globals';
-import { CustomAttribute } from '../src/api/customAttribute.js';
+import { CustomAttribute } from '@web-component-attribute-polyfill/core';
 import { digest } from './jest.utils.js';
 import '../src/index.js';
 

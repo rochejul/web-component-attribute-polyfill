@@ -28,3 +28,19 @@ If this package needs ` jest`, ensure in the ` vscode.settings.json` to update t
 ```json
 "jest.virtualFolders": [{ "name": "core", "rootPath": "packages/core" }]
 ```
+
+### Add a dependency between packages
+
+If you need to add a common dependency, please on the root of the project:
+
+```bash
+npm install --save-dev mydep
+```
+
+### Link a package on another package
+
+If you need a package on another one, please on the root of the project:
+
+```bash
+npm install --save @web-component-attribute-polyfill/core --workspace=packages/browse
+```

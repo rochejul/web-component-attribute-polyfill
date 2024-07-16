@@ -1,5 +1,5 @@
 {
-  "name": "types",
+  "name": "@web-component-attribute-polyfill/types",
   "version": "1.0.0",
   "description": "Typescript definition of the polyfill",
   "main": "./build/index.js",
@@ -22,7 +22,7 @@
     "typings",
     "types"
   ],
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "typescript": "5.5.3"
   },

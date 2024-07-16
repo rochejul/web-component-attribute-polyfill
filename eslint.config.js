@@ -23,6 +23,7 @@ export default [
     },
     ignores: [
       '**/.*',
+      '**/build',
       'node_modules/*',
       '--help/*',
       '.husky/*',

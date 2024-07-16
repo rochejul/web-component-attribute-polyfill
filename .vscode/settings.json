@@ -9,7 +9,10 @@
     "uncovered": "rgba(255,99,71, 0.2)",
     "partially-covered": "rgba(255,215,0, 0.2)"
   },
-  "jest.virtualFolders": [{ "name": "core", "rootPath": "packages/core" }],
+  "jest.virtualFolders": [
+    { "name": "browser", "rootPath": "packages/browser" },
+    { "name": "core", "rootPath": "packages/core" }
+  ],
   "jestrunner.jestCommand": "NODE_OPTIONS=\"--experimental-vm-modules\" npx jest",
   "jestrunner.runOptions": ["--no-cache", "--coverage=false"],
   "jestrunner.debugOptions": {

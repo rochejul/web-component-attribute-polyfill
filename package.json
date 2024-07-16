@@ -2,6 +2,7 @@
   "name": "web-component-attribute-polyfill",
   "version": "1.0.0",
   "type": "module",
+  "private": true,
   "description": "Create a polyfill to allow to have an \"attribute\" web component (rather a tag web component)",
   "scripts": {
     "dev:build": "npm run dev:build --workspaces --if-present",
@@ -55,7 +56,7 @@
     "type": "git",
     "url": "https://github.com/rochejul/web-component-attribute-polyfill.git"
   },
-  "license": "ISC",
+  "license": "MIT",
   "engines": {
     "node": "^16.10.0 || ^18.12.0 || >=20.0.0"
   },
