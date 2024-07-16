@@ -4,7 +4,7 @@
 
 The project was provided with [Vscode](https://code.visualstudio.com/) and then contains some configuration to deal with [NPM's workspaces](https://docs.npmjs.com/cli/v8/using-npm/workspaces).
 
-We could find some configuration to run the Vscode's [jest plugin](https://github.com/jest-community/vscode-jest) and [jest-runner plugin](https://marketplace.visualstudio.com/items?itemName=firsttris.vscode-jest-runner), [eslint plugin](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint), to use their debugger mode, coverage, etc...
+We could find some configuration to run the Vscode's [jest plugin](https://github.com/jest-community/vscode-jest) and [jest-runner plugin](https://marketplace.visualstudio.com/items?itemName=firsttris.vscode-jest-runner), [eslint plugin](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint), [typescript](https://marketplace.visualstudio.com/items?itemName=ms-vscode.vscode-typescript-next), to use their debugger mode, coverage, build, etc...
 
 Ensure to have these plugins and you will have for free the same env with everything configured
 

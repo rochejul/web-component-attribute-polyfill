@@ -4,6 +4,7 @@
   "type": "module",
   "description": "Create a polyfill to allow to have an \"attribute\" web component (rather a tag web component)",
   "scripts": {
+    "dev:build": "npm run dev:build --workspaces --if-present",
     "dev:format": "prettier --check \"./**/*.{ts,tsx,js,mjs,cjs,md}\"",
     "dev:format:check": "prettier --write \"./**/*.{ts,tsx,js,mjs,cjs,md}\"",
     "dev:linting": "npm run dev:linting --workspaces --if-present",
@@ -14,6 +15,7 @@
     "test:coverage": "npm run test:coverage --workspaces --if-present"
   },
   "//": {
+    "dev:build": "build the project over packages",
     "dev:format": "format files over packages",
     "dev:format:check": "check files format over packages",
     "dev:linting": "lint files over packages",

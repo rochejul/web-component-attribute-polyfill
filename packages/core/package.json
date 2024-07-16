@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "type": "module",
   "description": "Core logic of the polyfill",
-  "main": "index.js",
+  "main": "./src/engine.js",
+  "files": [
+    "./src"
+  ],
   "scripts": {
     "dev:linting": "eslint --config=eslint.config.js",
     "test": "NODE_OPTIONS=\"$NODE_OPTIONS --enable-source-maps --experimental-vm-modules\" npx jest --no-cache --config jest.config.json",
@@ -20,5 +23,13 @@
   "volta": {
     "node": "20.15.0",
     "npm": "10.7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rochejul/web-component-attribute-polyfill.git",
+    "directory": "packages/core"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

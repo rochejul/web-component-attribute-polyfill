@@ -1,0 +1,44 @@
+{
+  "name": "types",
+  "version": "1.0.0",
+  "description": "Typescript definition of the polyfill",
+  "main": "./build/index.js",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "default": "./build/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "dev:build": "tsc --build"
+  },
+  "//": {
+    "dev:build": "Generate the typings from Typescrip's definition files"
+  },
+  "keywords": [
+    "Typescript",
+    "typings",
+    "types"
+  ],
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "5.5.3"
+  },
+  "engines": {
+    "node": "^16.10.0 || ^18.12.0 || >=20.0.0"
+  },
+  "volta": {
+    "node": "20.15.0",
+    "npm": "10.7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rochejul/web-component-attribute-polyfill.git",
+    "directory": "packages/types"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
