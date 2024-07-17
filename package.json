@@ -5,7 +5,15 @@
   "private": true,
   "description": "Create a polyfill to allow to have an \"attribute\" web component (rather a tag web component)",
   "scripts": {
+    "bump:release": "npm run dev:check && npm version $(semver $npm_package_version -i) --workspaces --include-workspace-root",
+    "bump:major": "npm run dev:check  && npm version major -m \"chore: release %s \" --workspaces --include-workspace-root",
+    "bump:major:beta": "npm version major -m \"chore: release %s \" --workspaces --include-workspace-root --preid beta",
+    "bump:minor": "npm run dev:check  && npm version minor -m \"chore: release %s \" --workspaces --include-workspace-root",
+    "bump:minor:beta": "npm version minor -m \"chore: release %s \" --workspaces --include-workspace-root --preid beta",
+    "bump:patch": "npm run dev:check  && npm version patch -m \"chore: release %s \" --workspaces --include-workspace-root",
+    "bump:patch:beta": "npm version patch -m \"chore: release %s \" --workspaces --include-workspace-root",
     "dev:build": "npm run dev:build --workspaces --if-present",
+    "dev:check": "npm run dev:check  && npm run dev:styling",
     "dev:format": "prettier --check \"./**/*.{ts,tsx,js,mjs,cjs,md}\"",
     "dev:format:check": "prettier --write \"./**/*.{ts,tsx,js,mjs,cjs,md}\"",
     "dev:linting": "npm run dev:linting --workspaces --if-present",
@@ -16,17 +24,26 @@
     "test:coverage": "npm run test:coverage --workspaces --if-present"
   },
   "//": {
-    "dev:build": "build the project over packages",
-    "dev:format": "format files over packages",
-    "dev:format:check": "check files format over packages",
-    "dev:linting": "lint files over packages",
-    "dev:publish": "publish all the packages on npm registry",
-    "dev:styling": "format and lint files over packages",
-    "test": "run tests over packages",
-    "test:coverage": "run tests over packages and see coverage reports"
+    "bump:release": "Upgrade the release version over packages (remove the preid)",
+    "bump:major": "Upgrade the major version over packages",
+    "bump:major:beta": "Upgrade the major version over packages and add the beta preid",
+    "bump:minor": "Upgrade the minor version over packages",
+    "bump:minor:beta": "Upgrade the minor version over packages and add the beta preid",
+    "bump:patch": "Upgrade the patch version over packages",
+    "bump:patch:beta": "Upgrade the patch version over packages and add the beta preid",
+    "dev:build": "Build the project over packages",
+    "dev:check": "Run tests and styling over packages",
+    "dev:format": "Format files over packages",
+    "dev:format:check": "Check files format over packages",
+    "dev:linting": "Lint files over packages",
+    "dev:publish": "Publish all the packages on npm registry",
+    "dev:styling": "Format and lint files over packages",
+    "test": "Run tests over packages",
+    "test:coverage": "Run tests over packages and see coverage reports"
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "demo"
   ],
   "devDependencies": {
     "@commitlint/cli": "19.3.0",
@@ -59,9 +76,6 @@
   "license": "MIT",
   "engines": {
     "node": "^16.10.0 || ^18.12.0 || >=20.0.0"
-  },
-  "publishConfig": {
-    "access": "public"
   },
   "volta": {
     "node": "20.15.0",
