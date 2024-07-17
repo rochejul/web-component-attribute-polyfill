@@ -261,7 +261,7 @@
     }
 
     key.toggleConnected();
-    getInstancesRegistry().get(key).connectedCallback();
+    getInstancesRegistry().get(key).connectedCallback?.();
   }
 
   /**
@@ -273,7 +273,7 @@
     }
 
     key.toggleConnected();
-    getInstancesRegistry().get(key).disconnectedCallback();
+    getInstancesRegistry().get(key).disconnectedCallback?.();
     getInstancesRegistry().remove(key);
   }
 
@@ -297,7 +297,7 @@
         isMutationRecordAttributes(mutation) &&
         mutation.attributeName === attributeName
       ) {
-        customAttributeInstance.attributeChangedCallback(
+        customAttributeInstance.attributeChangedCallback?.(
           attributeName,
           mutation.oldValue,
           mutation.target.getAttribute(attributeName),
@@ -510,6 +510,10 @@
     globalThis.CustomAttribute = CustomAttribute;
 
     observeAttributes();
+
+    globalThis.addEventListener('DOMContentLoaded', () => {
+      observeAttributes();
+    });
   }
 
 }));

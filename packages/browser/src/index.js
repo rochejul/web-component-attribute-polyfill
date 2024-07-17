@@ -11,4 +11,8 @@ if (globalThis.customElements && !globalThis.customElements.defineAttribute) {
   globalThis.CustomAttribute = CustomAttribute;
 
   observeAttributes();
+
+  globalThis.addEventListener('DOMContentLoaded', () => {
+    observeAttributes();
+  });
 }

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link
+      rel="shortcut icon"
+      type="image/png"
+      href="./resources/icons8-favicon.gif"
+    />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Web component custom attributes polyfill showcase</title>
+    <script defer="defer" src="./resources/bundle.js"></script>
+    <script type="module" src="./resources/app.js"></script>
+  </head>
+
+  <body>
+    <h1>Demo of the custom attributes</h1>
+    <hr />
+    <h2>Standard DOM</h2>
+    <fieldset>
+      <legend>Without attribute</legend>
+      <article>Some article tag</article>
+    </fieldset>
+    <br />
+    <fieldset>
+      <legend>With attribute</legend>
+      <article border-styling="default">Some article tag</article>
+    </fieldset>
+    <br />
+    <fieldset>
+      <legend>With attribute and the possibility to change the style</legend>
+      <article border-styling="default" id="to-change">
+        Some article tag
+      </article>
+      <br />
+      <footer>
+        <button id="toggler">Toggle Style</button>
+      </footer>
+    </fieldset>
+
+    <h2>Shadow DOM (open) with template tag</h2>
+    <fieldset>
+      <legend>Without attribute</legend>
+      <div>
+        <template shadowrootmode="open">
+          <article>Some article tag</article>
+        </template>
+      </div>
+    </fieldset>
+    <br />
+    <fieldset>
+      <legend>With attribute</legend>
+      <div>
+        <template shadowrootmode="open">
+          <article border-styling="default">Some article tag</article>
+        </template>
+      </div>
+    </fieldset>
+    <br />
+    <fieldset>
+      <legend>With attribute and the possibility to change the style</legend>
+      <div id="shadow-root-open">
+        <template shadowrootmode="open">
+          <article border-styling="default" id="to-change">
+            Some article tag
+          </article>
+        </template>
+      </div>
+      <br />
+      <footer>
+        <button id="toggler2">Toggle Style</button>
+      </footer>
+    </fieldset>
+
+    <h2>Shadow DOM (open) with Custom Element</h2>
+    <fieldset>
+      <legend>Basic</legend>
+      <my-paragraph></my-paragraph>
+    </fieldset>
+
+    <h2>Shadow DOM (closed) with Custom Element</h2>
+    <fieldset>
+      <legend>Basic</legend>
+      <my-closed-paragraph></my-closed-paragraph>
+    </fieldset>
+
+    <template id="custom-paragraph">
+      <p border-styling="default">My paragraph</p>
+    </template>
+  </body>
+</html>

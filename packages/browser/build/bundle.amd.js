@@ -258,7 +258,7 @@ define((function () { 'use strict';
     }
 
     key.toggleConnected();
-    getInstancesRegistry().get(key).connectedCallback();
+    getInstancesRegistry().get(key).connectedCallback?.();
   }
 
   /**
@@ -270,7 +270,7 @@ define((function () { 'use strict';
     }
 
     key.toggleConnected();
-    getInstancesRegistry().get(key).disconnectedCallback();
+    getInstancesRegistry().get(key).disconnectedCallback?.();
     getInstancesRegistry().remove(key);
   }
 
@@ -294,7 +294,7 @@ define((function () { 'use strict';
         isMutationRecordAttributes(mutation) &&
         mutation.attributeName === attributeName
       ) {
-        customAttributeInstance.attributeChangedCallback(
+        customAttributeInstance.attributeChangedCallback?.(
           attributeName,
           mutation.oldValue,
           mutation.target.getAttribute(attributeName),
@@ -507,6 +507,10 @@ define((function () { 'use strict';
     globalThis.CustomAttribute = CustomAttribute;
 
     observeAttributes();
+
+    globalThis.addEventListener('DOMContentLoaded', () => {
+      observeAttributes();
+    });
   }
 
 }));
