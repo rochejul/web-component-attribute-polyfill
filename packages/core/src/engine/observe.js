@@ -7,6 +7,7 @@ import {
   hasShadowDom,
   findShadowElements,
   findElementsWithAttr,
+  isTemplateElement,
 } from '../utils/dom';
 
 import { instantiateCustomAttribute } from '../api/customAttribute.js';
@@ -220,6 +221,12 @@ export function observeAlreadyDeclaredAttr(attrName, root = document.body) {
 export function observeCustomAttribute(element, attributeName, attributeImpl) {
   const key = new CustomAttributeInstance(attributeName, element);
   const registryInstance = getInstancesRegistry();
+
+  if (isTemplateElement(element)) {
+    throw new DOMException(
+      `Failed to instantiante the custom attribute "${attributeName}" on the element: template tags are not allowed`,
+    );
+  }
 
   if (registryInstance.has(key)) {
     return () => {};

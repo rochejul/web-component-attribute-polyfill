@@ -1,9 +1,11 @@
 class BorderStylingAttribute extends globalThis.CustomAttribute {
   attributeChangedCallback(name, oldValue, newValue) {
+    super.attributeChangedCallback(name, oldValue, newValue);
     this.applyColor(newValue);
   }
 
   connectedCallback() {
+    super.connectedCallback();
     this.element.style.padding = '1rem';
     this.element.style.border = '3px solid black';
     this.element.style.borderRadius = '1rem';

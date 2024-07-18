@@ -8,6 +8,7 @@ import {
 } from '@jest/globals';
 
 import { observeCustomAttribute } from '../../src/engine/observe.js';
+import { getInstancesRegistry } from '../../src/engine/registries.js';
 
 import { CustomAttribute } from '../../src/api/customAttribute.js';
 import { defineAttribute } from '../../src/api/defineAttribute';
@@ -19,16 +20,21 @@ describe('core - engine - observe', () => {
   const spyDisconnectedCallback = jest.fn();
   const spyAttributeChangedCallback = jest.fn();
 
+  class Empty {}
+
   class MyOwnAttribute extends CustomAttribute {
     attributeChangedCallback(name, oldValue, newValue) {
+      super.attributeChangedCallback(name, oldValue, newValue);
       spyAttributeChangedCallback.apply(this, [name, oldValue, newValue]);
     }
 
     connectedCallback() {
+      super.connectedCallback();
       spyConnectedCallback.apply(this, []);
     }
 
     disconnectedCallback() {
+      super.disconnectedCallback();
       spyDisconnectedCallback.apply(this, []);
     }
   }
@@ -136,6 +142,36 @@ describe('core - engine - observe', () => {
           // Assert
           expect(stopObserving).toBeInstanceOf(Function);
         });
+
+        test('it registers the instance only one time', () => {
+          // Arrange
+          const element = document.createElement('div');
+          stopObserving = observeCustomAttribute(
+            element,
+            'hx-post',
+            AttributeImplementation,
+          );
+
+          // Act
+          observeCustomAttribute(element, 'hx-post', AttributeImplementation);
+
+          // Assert
+          expect(getInstancesRegistry().size()).toBe(1);
+        });
+
+        test('it does not allow to bind on a template tag', () => {
+          // Arrange
+          const element = document.createElement('template');
+          const t = () => {
+            observeCustomAttribute(element, 'hx-post', AttributeImplementation);
+          };
+
+          // Act & Assert
+          expect(t).toThrow(DOMException);
+          expect(t).toThrow(
+            `Failed to instantiante the custom attribute "hx-post" on the element: template tags are not allowed`,
+          );
+        });
       });
 
       test('it calls the attribute changed callback when the value has changed', async () => {
@@ -194,4 +230,21 @@ describe('core - engine - observe', () => {
       });
     },
   );
+
+  describe('observeCustomAttribute', () => {
+    test('it should not fail if not callbacks are provided', async () => {
+      // Arrange
+      const element = document.createElement('div');
+      element.setAttribute('hx-post', 'old-value');
+
+      const t = async () => {
+        observeCustomAttribute(element, 'hx-post', Empty);
+        element.setAttribute('hx-post', 'some-value');
+        await digest();
+      };
+
+      // Act & Assert
+      expect(t).not.toThrow();
+    });
+  });
 });

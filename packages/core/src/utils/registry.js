@@ -14,7 +14,7 @@ export class Registry {
   }
 
   has(key) {
-    const hash = key?.toString() ?? key;
+    const hash = key.toString();
     return this.getKeys().find((entry) => entry.toString() === hash);
   }
 

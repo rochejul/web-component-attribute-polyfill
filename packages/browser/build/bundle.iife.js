@@ -74,6 +74,15 @@
     return elements;
   }
 
+  /**
+   *
+   * @param {Element} element
+   * @returns {boolean}
+   */
+  function isTemplateElement(element) {
+    return element.tagName === 'TEMPLATE';
+  }
+
   const ELEMENT_SYMBOL = Symbol('element');
 
   function instantiateCustomAttribute(element, InheritedClass) {
@@ -121,7 +130,7 @@
     }
 
     has(key) {
-      const hash = key?.toString() ?? key;
+      const hash = key.toString();
       return this.getKeys().find((entry) => entry.toString() === hash);
     }
 
@@ -452,6 +461,12 @@
   function observeCustomAttribute(element, attributeName, attributeImpl) {
     const key = new CustomAttributeInstance(attributeName, element);
     const registryInstance = getInstancesRegistry();
+
+    if (isTemplateElement(element)) {
+      throw new DOMException(
+        `Failed to instantiante the custom attribute "${attributeName}" on the element: template tags are not allowed`,
+      );
+    }
 
     if (registryInstance.has(key)) {
       return () => {};

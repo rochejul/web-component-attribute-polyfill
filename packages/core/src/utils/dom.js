@@ -49,3 +49,12 @@ export function findElementsWithAttr(root, attrName) {
 
   return elements;
 }
+
+/**
+ *
+ * @param {Element} element
+ * @returns {boolean}
+ */
+export function isTemplateElement(element) {
+  return element.tagName === 'TEMPLATE';
+}
