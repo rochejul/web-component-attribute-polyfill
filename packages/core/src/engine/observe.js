@@ -7,6 +7,7 @@ import {
   hasShadowDom,
   findShadowElements,
   findElementsWithAttr,
+  isNodeElement,
   isTemplateElement,
 } from '../utils/dom';
 
@@ -77,7 +78,7 @@ function attributeMutationHandler(
  * @param {MutationRecord} mutation
  */
 function callDisconnectedCallback(mutation) {
-  const removedNodes = Array.from(mutation.removedNodes);
+  const removedNodes = Array.from(mutation.removedNodes).filter(isNodeElement);
 
   if (!removedNodes.length) {
     return;
@@ -94,7 +95,7 @@ function callDisconnectedCallback(mutation) {
  * @param {MutationRecord} mutation
  */
 function callConnectedCallback(mutation) {
-  const addedNodes = Array.from(mutation.addedNodes);
+  const addedNodes = Array.from(mutation.addedNodes).filter(isNodeElement);
 
   if (!addedNodes.length) {
     return;

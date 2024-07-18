@@ -51,6 +51,14 @@ export function findElementsWithAttr(root, attrName) {
 }
 
 /**
+ * @param {Element} element
+ * @returns {boolean}
+ */
+export function isNodeElement(element) {
+  return element.nodeType === Node.ELEMENT_NODE;
+}
+
+/**
  *
  * @param {Element} element
  * @returns {boolean}

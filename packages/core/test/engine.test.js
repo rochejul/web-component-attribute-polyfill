@@ -7,7 +7,11 @@ import {
   jest,
 } from '@jest/globals';
 
-import { observeAttributes, defineAttribute } from '../src/engine.js';
+import {
+  observeAttributes,
+  defineAttribute,
+  enableClosedShadowRoot,
+} from '../src/engine.js';
 import { CustomAttribute } from '../src/api/customAttribute.js';
 
 import { digest } from './jest.utils.js';
@@ -313,6 +317,37 @@ describe('core - engine', () => {
         // Act && Assert
         expect(t).not.toThrow();
       });
+    });
+  });
+
+  describe('enableClosedShadowRoot', () => {
+    test('when we use it, we are able to deal with closed shadow root', async () => {
+      // Arrange
+      enableClosedShadowRoot(globalThis);
+      defineAttribute('hx-post', MyOwnAttribute);
+
+      const root = document.createElement('section');
+      document.body.appendChild(root);
+
+      const shadowRoot = root.attachShadow({ mode: 'closed' });
+
+      const element = document.createElement('div');
+      element.setAttribute('hx-post', 'old-value');
+
+      // Act
+      shadowRoot.appendChild(element);
+      await digest();
+
+      element.setAttribute('hx-post', 'some-value');
+      await digest();
+
+      shadowRoot.removeChild(element);
+      await digest();
+
+      // Assert
+      expect(spyConnectedCallback).toHaveBeenCalledTimes(1);
+      expect(spyAttributeChangedCallback).toHaveBeenCalledTimes(1);
+      expect(spyDisconnectedCallback).toHaveBeenCalledTimes(1);
     });
   });
 });

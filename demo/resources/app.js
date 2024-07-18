@@ -36,13 +36,14 @@ customElements.define(
   },
 );
 
+customElements.defineAttribute('border-styling', BorderStylingAttribute);
 customElements.define(
   'my-closed-paragraph',
   class MyParagraphClosed extends HTMLElement {
     constructor() {
       super();
 
-      let template = document.querySelector('#custom-paragraph');
+      let template = document.querySelector('#custom-paragraph-closed');
       let templateContent = template.content;
 
       const shadowRoot = this.attachShadow({ mode: 'closed' });
@@ -52,8 +53,6 @@ customElements.define(
 );
 
 globalThis.addEventListener('DOMContentLoaded', () => {
-  customElements.defineAttribute('border-styling', BorderStylingAttribute);
-
   let state = 'default';
   const toChangeElement = document.querySelector('#to-change');
   document.querySelector('#toggler').addEventListener('click', () => {

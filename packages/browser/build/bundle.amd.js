@@ -74,6 +74,14 @@ define((function () { 'use strict';
   }
 
   /**
+   * @param {Element} element
+   * @returns {boolean}
+   */
+  function isNodeElement(element) {
+    return element.nodeType === Node.ELEMENT_NODE;
+  }
+
+  /**
    *
    * @param {Element} element
    * @returns {boolean}
@@ -316,7 +324,7 @@ define((function () { 'use strict';
    * @param {MutationRecord} mutation
    */
   function callDisconnectedCallback(mutation) {
-    const removedNodes = Array.from(mutation.removedNodes);
+    const removedNodes = Array.from(mutation.removedNodes).filter(isNodeElement);
 
     if (!removedNodes.length) {
       return;
@@ -333,7 +341,7 @@ define((function () { 'use strict';
    * @param {MutationRecord} mutation
    */
   function callConnectedCallback(mutation) {
-    const addedNodes = Array.from(mutation.addedNodes);
+    const addedNodes = Array.from(mutation.addedNodes).filter(isNodeElement);
 
     if (!addedNodes.length) {
       return;
@@ -507,6 +515,22 @@ define((function () { 'use strict';
   }
 
   /**
+   * @param {context} context
+   */
+  function enableClosedShadowRoot(context) {
+    const attachShadow = context.HTMLElement.prototype.attachShadow;
+    context.HTMLElement.prototype.attachShadow = function (option) {
+      const shadowRoot = attachShadow.call(this, option);
+
+      if (option?.mode === 'closed') {
+        observeAttributes(shadowRoot);
+      }
+
+      return shadowRoot;
+    };
+  }
+
+  /**
    * @param {string} attributeName
    * @param {CustomAttributeImplementation} attributeImpl
    */
@@ -521,6 +545,7 @@ define((function () { 'use strict';
     customElements.defineAttribute = defineAttribute;
     globalThis.CustomAttribute = CustomAttribute;
 
+    enableClosedShadowRoot(globalThis);
     observeAttributes();
 
     globalThis.addEventListener('DOMContentLoaded', () => {

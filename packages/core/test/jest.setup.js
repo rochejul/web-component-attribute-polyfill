@@ -8,6 +8,7 @@ import {
 
 const customAttributesRegistry = getCustomAttributesRegistry();
 const instancesRegistry = getInstancesRegistry();
+const attachShadow = HTMLElement.prototype.attachShadow;
 
 Object.defineProperty(globalThis, 'crypto', {
   value: {
@@ -25,4 +26,5 @@ beforeEach(() => {
 afterEach(() => {
   customAttributesRegistry.clear();
   instancesRegistry.clear();
+  HTMLElement.prototype.attachShadow = attachShadow;
 });
