@@ -1,14 +1,13 @@
 import { Registry } from '../utils/registry.js';
+import { isValidAttributeName } from '../utils/dom.js';
 
-const ATTR_NAME_NAME_ALLOWED_REGEXP = /^[A-Za-z0-9-]*$/;
-
-function isValidAttributeName(attributeName) {
+/**
+ * @param {string} attributeName
+ * @returns {boolean}
+ */
+function isValidCustomAttributeName(attributeName) {
   return (
-    typeof attributeName === 'string' &&
-    attributeName.length > 1 &&
-    ATTR_NAME_NAME_ALLOWED_REGEXP.test(attributeName) &&
-    attributeName.includes('-') &&
-    !attributeName.endsWith('-')
+    isValidAttributeName(attributeName) && !attributeName.startsWith('data-')
   );
 }
 
@@ -44,7 +43,7 @@ export function defineAttribute(attributeName, attributeImpl) {
     );
   }
 
-  if (!isValidAttributeName(attributeName)) {
+  if (!isValidCustomAttributeName(attributeName)) {
     throw new DOMException(
       `Failed to execute 'defineAttribute' on 'CustomElementRegistry': "${attributeName}" is not a valid custom element name`,
     );

@@ -1,3 +1,5 @@
+const ATTRIBUTE_NAME_REGEXP = /^[a-zA-Z0-9](([a-zA-Z0-9\\-])*[a-zA-Z0-9])?$/;
+
 /**
  * @param {Element} element
  * @returns {string[]}
@@ -59,10 +61,17 @@ export function isNodeElement(element) {
 }
 
 /**
- *
  * @param {Element} element
  * @returns {boolean}
  */
 export function isTemplateElement(element) {
   return element.tagName === 'TEMPLATE';
+}
+
+/**
+ * @param {string} attributeName
+ * @returns {boolean}
+ */
+export function isValidAttributeName(attributeName) {
+  return !!(attributeName && ATTRIBUTE_NAME_REGEXP.test(attributeName));
 }

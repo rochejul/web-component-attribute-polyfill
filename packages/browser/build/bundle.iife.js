@@ -22,6 +22,8 @@
     return type === MutationRecordType.childList;
   }
 
+  const ATTRIBUTE_NAME_REGEXP = /^[a-zA-Z0-9](([a-zA-Z0-9\\-])*[a-zA-Z0-9])?$/;
+
   /**
    * @param {Element} element
    * @returns {string[]}
@@ -83,12 +85,19 @@
   }
 
   /**
-   *
    * @param {Element} element
    * @returns {boolean}
    */
   function isTemplateElement(element) {
     return element.tagName === 'TEMPLATE';
+  }
+
+  /**
+   * @param {string} attributeName
+   * @returns {boolean}
+   */
+  function isValidAttributeName(attributeName) {
+    return !!(attributeName && ATTRIBUTE_NAME_REGEXP.test(attributeName));
   }
 
   const ELEMENT_SYMBOL = Symbol('element');
@@ -138,7 +147,7 @@
     }
 
     has(key) {
-      const hash = key.toString();
+      const hash = key?.toString() ?? key;
       return this.getKeys().find((entry) => entry.toString() === hash);
     }
 
@@ -155,15 +164,13 @@
     }
   }
 
-  const ATTR_NAME_NAME_ALLOWED_REGEXP = /^[A-Za-z0-9-]*$/;
-
-  function isValidAttributeName(attributeName) {
+  /**
+   * @param {string} attributeName
+   * @returns {boolean}
+   */
+  function isValidCustomAttributeName(attributeName) {
     return (
-      typeof attributeName === 'string' &&
-      attributeName.length > 1 &&
-      ATTR_NAME_NAME_ALLOWED_REGEXP.test(attributeName) &&
-      attributeName.includes('-') &&
-      !attributeName.endsWith('-')
+      isValidAttributeName(attributeName) && !attributeName.startsWith('data-')
     );
   }
 
@@ -199,7 +206,7 @@
       );
     }
 
-    if (!isValidAttributeName(attributeName)) {
+    if (!isValidCustomAttributeName(attributeName)) {
       throw new DOMException(
         `Failed to execute 'defineAttribute' on 'CustomElementRegistry': "${attributeName}" is not a valid custom element name`,
       );

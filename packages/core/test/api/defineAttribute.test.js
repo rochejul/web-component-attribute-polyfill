@@ -42,12 +42,13 @@ describe('core - api - defineAttribute', () => {
     });
 
     const scenarriiFirstArgumentNotValid = [
+      { type: 'undefined', value: undefined },
       { type: 'null', value: null },
-      { type: 'number', value: 25 },
       { type: 'empty string', value: '' },
       { type: 'with spaces', value: ' a-a' },
-      { type: 'without dash', value: 'a' },
-      { type: 'with partial dash', value: 'a-' },
+      { type: 'with partial dash (begin)', value: 'a-' },
+      { type: 'with partial dash (end)', value: 'a-' },
+      { type: 'with data attributes', value: 'data-a' },
     ];
 
     test.each(scenarriiFirstArgumentNotValid)(

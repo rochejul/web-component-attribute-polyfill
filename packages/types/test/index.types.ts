@@ -1,9 +1,10 @@
-import {
-  CustomAttribute,
-  defineAttribute,
-} from '@web-component-attribute-polyfill/core';
+import { CustomAttribute } from '@web-component-attribute-polyfill/core';
 
-class MyCustomAttribute extends CustomAttribute {}
+import { Window, CustomElementRegistry } from '../src/index';
+const window = globalThis.window as unknown as Window;
+const { defineAttribute } = window.customElements as CustomElementRegistry;
+
+class MyCustomAttribute {}
 
 function Es5Constructor() {}
 Es5Constructor.prototype.connectedCallback();

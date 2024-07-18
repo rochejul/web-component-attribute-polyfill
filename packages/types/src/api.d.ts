@@ -1,9 +1,11 @@
+type AttributeName = string;
+
 interface CustomAttribute {
   readonly element: Element;
   connectedCallack(): void;
   disconnectedCallack(): void;
   attributeChangedCallback(
-    attributeName: string,
+    attributeName: AttributeName,
     oldValue: any,
     newValue: any,
   ): void;
@@ -11,8 +13,8 @@ interface CustomAttribute {
 
 type AttributeImplType = Function | CustomAttribute;
 type DefineAttribute = (
-  attributeName: string,
-  attributeImpl: AttributeImplType,
+  attributeName: NonNullable<AttributeName>,
+  attributeImpl: NonNullable<AttributeImplType>,
 ) => void;
 
 export { CustomAttribute, DefineAttribute };
