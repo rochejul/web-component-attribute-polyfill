@@ -1,3 +1,6 @@
+// eslint-disable-next-line no-unused-vars
+import * as polyfill from '@web-component-attribute-polyfill/browser';
+
 class BorderStylingAttribute extends globalThis.CustomAttribute {
   attributeChangedCallback(name, oldValue, newValue) {
     super.attributeChangedCallback(name, oldValue, newValue);
