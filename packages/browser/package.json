@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "./src/index.js",
   "type": "module",
-  "description": "PAckage to load the polyfill into a browser",
+  "description": "Package to load the polyfill into a browser",
   "files": [
     "./build",
     "./src"
@@ -17,10 +17,14 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "dev:build": "rollup --config rollup.config.js"
+    "dev:build": "rollup --config rollup.config.js",
+    "test": "NODE_OPTIONS=\"$NODE_OPTIONS --enable-source-maps --experimental-vm-modules\" npx jest --no-cache --config jest.config.json",
+    "test:coverage": "npm run test -- --coverage"
   },
   "//": {
-    "dev:build": "bundle the package for various targets"
+    "dev:build": "Bundle the package for various targets",
+    "test": "Run Jest tests",
+    "test:coverage": "Run Jest tests and collect coverage"
   },
   "license": "MIT",
   "engines": {

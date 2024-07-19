@@ -1,6 +1,12 @@
 # Guidelines
 
-## Ide: Vscode
+## Tooling
+
+### Volta
+
+This project uses [Volta](https://volta.sh/) to ensure that all the contributors share the same version of `Node` and `Npm` for development. If you are considering making frequent contributions to this project, we recommend installing this tool as well. Otherwise, check the `volta` field in `package.json` to see which versions to use.
+
+### Ide: Vscode
 
 The project was provided with [Vscode](https://code.visualstudio.com/) and then contains some configuration to deal with [NPM's workspaces](https://docs.npmjs.com/cli/v8/using-npm/workspaces).
 

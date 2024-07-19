@@ -31,6 +31,73 @@ We should extend the `CustomAttribute` class which exposes:
 - the `attributeChangedCallback` method used when the custom attribute's value has changed
 - the `element` property which reflects the element where is used the custom attribute
 
+You could see in the [demo folder](./demo/) a way to use the polyfill.
+
+Ensure to import the polyfill, through an import:
+
+```js
+import * as polyfill from '@web-component-attribute-polyfill/browser';
+```
+
+Or from the HTML `script` tag:
+
+```html
+<script defer="defer" src="./node_modules/@web-component-attribute-polyfill/browser/build/bundle.js">
+```
+
+Then declare your custom attribute:
+
+```js
+class BorderStylingAttribute extends globalThis.CustomAttribute {
+  attributeChangedCallback(name, oldValue, newValue) {
+    super.attributeChangedCallback(name, oldValue, newValue);
+    this.applyColor(newValue);
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.element.style.padding = '1rem';
+    this.element.style.border = '3px solid black';
+    this.element.style.borderRadius = '1rem';
+    this.applyColor();
+  }
+
+  applyColor(styling) {
+    if (styling === 'variant') {
+      this.element.style.borderColor = 'red';
+    } else {
+      this.element.style.borderColor = 'black';
+    }
+  }
+}
+
+customElements.defineAttribute('border-styling', BorderStylingAttribute);
+```
+
+And at the end, use it on your elements:
+
+```html
+<article border-styling="default">Some article tag</article>
+
+<div>
+  <template shadowrootmode="open">
+    <article border-styling="default">Some article tag</article>
+  </template>
+</div>
+```
+
+## Commands
+
+- `npm run dev:build`: Build the project over packages
+- `npm run dev:check`: Run tests and styling over packages
+- `npm run dev:format`: Format files over packages
+- `npm run dev:format:check`: Check files format over packages
+- `npm run dev:linting`: Lint files over packages
+- `npm run dev:publish`: Publish all the packages on npm registry
+- `npm run dev:styling`: Format and lint files over packages
+- `npm test`: Run tests over packages
+- `npm run test:coverage`: Run tests over packages and see coverage reports
+
 ## Contributing
 
 - [Guidelines](./docs/GUIDELINES.md)

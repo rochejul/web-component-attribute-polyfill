@@ -21,7 +21,7 @@
   },
   "//": {
     "dev:build": "Generate the typings from Typescrip's definition files",
-    "test": "ensure we define correclty the definitions"
+    "test": "Ensure we define correclty the definitions"
   },
   "keywords": [
     "Typescript",
