@@ -89,6 +89,7 @@ And at the end, use it on your elements:
 ## Commands
 
 - `npm run dev:build`: Build the project over packages
+- ` npm run dev:bump`: Bump the project's version (don't forget to push the commit and the tag)
 - `npm run dev:check`: Run tests and styling over packages
 - `npm run dev:format`: Format files over packages
 - `npm run dev:format:check`: Check files format over packages
