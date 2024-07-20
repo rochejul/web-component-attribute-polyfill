@@ -1,6 +1,6 @@
 {
   "name": "@web-component-attribute-polyfill/demo",
-  "version": "1.0.0",
+  "version": "1.0.1-beta.0",
   "description": "Demo app",
   "source": "index.html",
   "type": "module",
@@ -23,5 +23,8 @@
   "volta": {
     "node": "20.15.0",
     "npm": "10.7.0"
+  },
+  "dependencies": {
+    "@web-component-attribute-polyfill/core": "1.0.0"
   }
 }

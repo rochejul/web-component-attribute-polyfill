@@ -1,6 +1,6 @@
 {
   "name": "@web-component-attribute-polyfill/types",
-  "version": "1.0.0",
+  "version": "1.0.1-beta.0",
   "description": "Typescript definition of the polyfill",
   "main": "./build/index.js",
   "types": "./src/index.d.ts",
@@ -30,7 +30,6 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@web-component-attribute-polyfill/core": "1.0.0",
     "check-dts": "0.8.0",
     "typescript": "5.5.3"
   },
@@ -48,5 +47,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@web-component-attribute-polyfill/core": "1.0.1-beta.0"
   }
 }
