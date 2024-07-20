@@ -1,3 +1,15 @@
-import configs from '../../eslint.config.js';
+import {
+  eslintRecommended,
+  eslintWeb,
+  eslintAmd,
+  eslintCommonJs,
+  eslintJest,
+} from '../../eslint.config.js';
 
-export default [...configs];
+export default [
+  eslintRecommended,
+  eslintAmd,
+  eslintCommonJs,
+  eslintWeb,
+  eslintJest,
+];

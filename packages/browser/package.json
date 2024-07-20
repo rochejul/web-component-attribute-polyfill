@@ -18,11 +18,13 @@
   },
   "scripts": {
     "dev:build": "rollup --config rollup.config.js",
+    "dev:linting": "eslint --config=eslint.config.js",
     "test": "NODE_OPTIONS=\"$NODE_OPTIONS --enable-source-maps --experimental-vm-modules\" npx jest --no-cache --config jest.config.json",
     "test:coverage": "npm run test -- --coverage"
   },
   "//": {
     "dev:build": "Bundle the package for various targets",
+    "dev:linting": "Lint files",
     "test": "Run Jest tests",
     "test:coverage": "Run Jest tests and collect coverage"
   },
