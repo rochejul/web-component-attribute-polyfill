@@ -28,3 +28,4 @@ You could find in the [build folder](./build/) various targets
 ## Contributing
 
 - [Guidelines](../../docs/GUIDELINES.md)
+- [Code of conducts](../../docs/CODE_OF_CONDUCTS.md)

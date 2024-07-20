@@ -52,3 +52,4 @@ globalThis.addEventListener('DOMContentLoaded', () => {
 ## Contributing
 
 - [Guidelines](../../docs/GUIDELINES.md)
+- [Code of conducts](../../docs/CODE_OF_CONDUCTS.md)

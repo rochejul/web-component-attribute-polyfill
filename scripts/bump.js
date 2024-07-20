@@ -117,7 +117,29 @@ if (proceed) {
     `npm install --save @web-component-attribute-polyfill/core --workspace=packages/types`,
   );
   await asyncExec('git add .');
-  await asyncExec(
-    `npm version ${versionToUse} --include-workspace-root --force -m "chore: release %s"`,
-  );
+
+  try {
+    await asyncExec(
+      `npm version ${versionToUse} --include-workspace-root --force -m "chore: release %s"`,
+    );
+  } finally {
+    const push = await select({
+      message: 'Do you want to push on remote?',
+      choices: [
+        {
+          name: `No`,
+          value: false,
+        },
+        {
+          name: `Yes`,
+          value: true,
+        },
+      ],
+    });
+
+    if (push) {
+      await asyncExec(`git push origin`);
+      await asyncExec(`git push origin --tags`);
+    }
+  }
 }
