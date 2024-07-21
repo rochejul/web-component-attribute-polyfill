@@ -115,11 +115,19 @@ if (proceed) {
   await asyncExec(
     `npm install --save @web-component-attribute-polyfill/core --workspace=packages/browser`,
   );
+
   await asyncExec(
     `npm uninstall --save @web-component-attribute-polyfill/core --workspace=packages/types`,
   );
   await asyncExec(
     `npm install --save @web-component-attribute-polyfill/core --workspace=packages/types`,
+  );
+
+  await asyncExec(
+    `npm uninstall --save @web-component-attribute-polyfill/browser --workspace=packages/types`,
+  );
+  await asyncExec(
+    `npm install --save @web-component-attribute-polyfill/browser --workspace=packages/types`,
   );
 
   // Final step

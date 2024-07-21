@@ -16,6 +16,56 @@
 
 Typescript definition of the polyfill
 
+## Usage
+
+```typescript
+import type { AttributeName } from '@web-component-attribute-polyfill/core';
+import type {
+  Window,
+  CustomElementRegistry,
+} from '@web-component-attribute-polyfill/browser';
+
+import '@web-component-attribute-polyfill/browser';
+import { CustomAttribute } from '@web-component-attribute-polyfill/core';
+
+const window = globalThis.window as unknown as Window;
+const customElements = window.customElements as CustomElementRegistry;
+
+class BorderStylingAttribute extends CustomAttribute {
+  attributeChangedCallback(
+    name: AttributeName,
+    oldValue: string,
+    newValue: string,
+  ) {
+    super.attributeChangedCallback(name, oldValue, newValue);
+    this.applyColor(newValue);
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+
+    const element = this.element as HTMLElement;
+
+    element.style.padding = '1rem';
+    element.style.border = '3px solid black';
+    element.style.borderRadius = '1rem';
+    this.applyColor();
+  }
+
+  applyColor(styling: string = 'default') {
+    const element = this.element as HTMLElement;
+
+    if (styling === 'variant') {
+      element.style.borderColor = 'red';
+    } else {
+      element.style.borderColor = 'black';
+    }
+  }
+}
+
+customElements.defineAttribute('border-styling', BorderStylingAttribute);
+```
+
 ## Commands
 
 - `npm run dev:build`: Generate the typings from Typescrip's definition files
