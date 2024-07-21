@@ -1,0 +1,18 @@
+{
+  "include": ["resources/**/*"],
+  "compilerOptions": {
+    "isolatedModules": true,
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
+    "strict": true,
+    "target": "es2021",
+    "paths": {
+      "@web-component-attribute-polyfill/browser": [
+        "../../packages/types/src/browser.d.ts"
+      ],
+      "@web-component-attribute-polyfill/core": [
+        "../../packages/types/src/core.d.ts"
+      ]
+    }
+  }
+}

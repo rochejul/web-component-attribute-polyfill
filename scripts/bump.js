@@ -114,6 +114,19 @@ if (proceed) {
     `npm install --save @web-component-attribute-polyfill/types --workspace=demos/vanilla`,
   );
 
+  await asyncExec(
+    `npm uninstall --save @web-component-attribute-polyfill/browser--workspace=demos/typescript`,
+  );
+  await asyncExec(
+    `npm install --save @web-component-attribute-polyfill/browser --workspace=demos/typescript`,
+  );
+  await asyncExec(
+    `npm uninstall --save @web-component-attribute-polyfill/types--workspace=demos/typescript`,
+  );
+  await asyncExec(
+    `npm install --save @web-component-attribute-polyfill/types --workspace=demos/typescript`,
+  );
+
   // Packages
   await asyncExec(
     `npm uninstall --save @web-component-attribute-polyfill/core --workspace=packages/browser`,

@@ -2,7 +2,7 @@
   "name": "@web-component-attribute-polyfill/types",
   "version": "1.0.1-beta.0",
   "description": "Typescript definition of the polyfill",
-  "main": "./build/index.js",
+  "main": "./build/index.types.js",
   "types": "./src/index.d.ts",
   "files": [
     "./build",

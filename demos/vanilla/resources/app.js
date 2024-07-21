@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-unused-vars
-import * as polyfill from '@web-component-attribute-polyfill/browser';
+import '@web-component-attribute-polyfill/browser';
 
 class BorderStylingAttribute extends globalThis.CustomAttribute {
   attributeChangedCallback(name, oldValue, newValue) {
@@ -24,7 +23,7 @@ class BorderStylingAttribute extends globalThis.CustomAttribute {
   }
 }
 
-customElements.define(
+globalThis.customElements.define(
   'my-paragraph',
   class MyParagraphOpen extends HTMLElement {
     constructor() {
@@ -39,8 +38,11 @@ customElements.define(
   },
 );
 
-customElements.defineAttribute('border-styling', BorderStylingAttribute);
-customElements.define(
+globalThis.customElements.defineAttribute(
+  'border-styling',
+  BorderStylingAttribute,
+);
+globalThis.customElements.define(
   'my-closed-paragraph',
   class MyParagraphClosed extends HTMLElement {
     constructor() {
@@ -67,6 +69,7 @@ globalThis.addEventListener('DOMContentLoaded', () => {
   const toChangeElement2 = document
     .querySelector('#shadow-root-open')
     .shadowRoot.querySelector('#to-change');
+
   document.querySelector('#toggler2').addEventListener('click', () => {
     state2 = state2 === 'variant' ? 'default' : 'variant';
     toChangeElement2.setAttribute('border-styling', state2);

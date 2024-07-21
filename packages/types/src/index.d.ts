@@ -1,18 +1,2 @@
-import { CustomAttribute, DefineAttribute } from './api';
-
-declare global {
-  interface CustomElementRegistryAugmented extends CustomElementRegistry {
-    defineAttribute: DefineAttribute;
-  }
-
-  interface WindowAugmented extends Window {
-    CustomAttribute: CustomAttribute;
-  }
-}
-
-export {
-  CustomAttribute,
-  DefineAttribute,
-  CustomElementRegistryAugmented as CustomElementRegistry,
-  WindowAugmented as Window,
-};
+import * as Core from '@web-component-attribute-polyfill/core';
+import * as Browser from '@web-component-attribute-polyfill/browser';

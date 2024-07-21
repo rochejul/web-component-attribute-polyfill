@@ -1,6 +1,6 @@
-# @web-component-attribute-polyfill/demo
+# @web-component-attribute-polyfill/demo-ts
 
-Simple vanillajs demo with [ParcelJs](https://parceljs.org/)
+Simple typescript demo with [ParcelJs](https://parceljs.org/)
 
 ## Commands
 

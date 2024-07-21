@@ -1,6 +1,10 @@
+import type {
+  Window,
+  CustomElementRegistry,
+} from '@web-component-attribute-polyfill/browser';
+
 import { CustomAttribute } from '@web-component-attribute-polyfill/core';
 
-import { Window, CustomElementRegistry } from '../src/index';
 const window = globalThis.window as unknown as Window;
 const { defineAttribute } = window.customElements as CustomElementRegistry;
 

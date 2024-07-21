@@ -1,4 +1,7 @@
-import { Window, CustomElementRegistry } from '../src/index';
+import type {
+  Window,
+  CustomElementRegistry,
+} from '@web-component-attribute-polyfill/browser';
 
 class MyCustomAttribute {}
 

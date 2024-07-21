@@ -15,6 +15,7 @@
     "dev:styling": "npm run dev:format && npm run dev:linting",
     "prepare": "husky && npx replace-in-file '#!/usr/bin/env sh' '#!/usr/bin/env bash' '.husky/_/husky.sh' --quiet && npx replace-in-file 'sh -e' 'bash -e' '.husky/_/husky.sh' --quiet",
     "start": "npm run start --workspace demos/vanilla",
+    "start:ts": "npm run start --workspace demos/typescript",
     "test": "npm run test --workspaces --if-present",
     "test:coverage": "npm run test:coverage --workspaces --if-present"
   },
@@ -35,6 +36,7 @@
     "dev:publish": "Publish all the packages on npm registry",
     "dev:styling": "Format and lint files over packages",
     "start": "Run the vanilla demo",
+    "start:ts": "Run the typescript demo",
     "test": "Run tests over packages",
     "test:coverage": "Run tests over packages and see coverage reports"
   },

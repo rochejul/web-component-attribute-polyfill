@@ -107,6 +107,7 @@ And at the end, use it on your elements:
 - `npm run dev:publish`: Publish all the packages on npm registry
 - `npm run dev:styling`: Format and lint files over packages
 - `npm start`: Run the vanilla demo
+- `npm run start:ts`: Run the typescript demo
 - `npm test`: Run tests over packages
 - `npm run test:coverage`: Run tests over packages and see coverage reports
 
