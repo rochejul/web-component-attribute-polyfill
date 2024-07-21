@@ -1,29 +1,10 @@
 import { readFileSync } from 'fs';
 import { resolve, join } from 'path';
-import { exec } from 'child_process';
 
 import semverInc from 'semver/functions/inc.js';
 import { select } from '@inquirer/prompts';
 
-async function asyncExec(cmd) {
-  console.info(cmd);
-  return new Promise((resolve, reject) => {
-    exec(cmd, (error, stdout, stderr) => {
-      if (error) {
-        console.error(`error: ${error.message}`);
-        reject();
-        return;
-      }
-      if (stderr) {
-        console.error(stderr);
-        reject();
-        return;
-      }
-      console.log(stdout);
-      resolve();
-    });
-  });
-}
+import { asyncExec } from './lib/exec.js';
 
 const __dirname = import.meta.dirname;
 const packageJsonFilePath = resolve(join(__dirname, '../package.json'));
