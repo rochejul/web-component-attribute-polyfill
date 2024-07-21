@@ -38,7 +38,7 @@ if (currentVersion.includes('-beta.')) {
     message: 'Do you want to release?',
     choices: [
       {
-        name: `No (next version: ${semverInc(currentVersion, 'prepatch', true, 'beta')})`,
+        name: `No (next version: ${semverInc(currentVersion, 'prerelease', true, 'beta')})`,
         value: semverInc(currentVersion, 'prepatch', true, 'beta'),
       },
       {
