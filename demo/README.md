@@ -9,4 +9,5 @@ Simple vanillajs demo with [ParcelJs](https://parceljs.org/)
 ## Contributing
 
 - [Guidelines](../docs/GUIDELINES.md)
+- [Contributing](../docs/CONTRIBUTING.md)
 - [Code of conducts](../docs/CODE_OF_CONDUCTS.md)
