@@ -148,24 +148,45 @@ if (proceed) {
     await asyncExec(
       `npm version ${versionToUse} --include-workspace-root --force -m "chore: release %s"`,
     );
-  } finally {
-    const push = await select({
-      message: 'Do you want to push on remote?',
-      choices: [
-        {
-          name: `No`,
-          value: false,
-        },
-        {
-          name: `Yes`,
-          value: true,
-        },
-      ],
-    });
+    // eslint-disable-next-line no-unused-vars
+  } catch (e) {
+    // nothing to do
+  }
 
-    if (push) {
-      await asyncExec(`git push origin`);
-      await asyncExec(`git push origin --tags`);
-    }
+  const push = await select({
+    message: 'Do you want to push on remote?',
+    choices: [
+      {
+        name: `No`,
+        value: false,
+      },
+      {
+        name: `Yes`,
+        value: true,
+      },
+    ],
+  });
+
+  if (push) {
+    await asyncExec(`git push origin --no-verify`);
+    await asyncExec(`git push origin --no-verify --tags`);
+  }
+
+  const publish = await select({
+    message: 'Do you want to publish on NPM?',
+    choices: [
+      {
+        name: `No`,
+        value: false,
+      },
+      {
+        name: `Yes`,
+        value: true,
+      },
+    ],
+  });
+
+  if (publish) {
+    await asyncExec(`npm run dev:publish`);
   }
 }
