@@ -41,12 +41,14 @@ We should extend the `CustomAttribute` class which exposes:
 - the `attributeChangedCallback` method used when the custom attribute's value has changed
 - the `element` property which reflects the element where is used the custom attribute
 
-You could see in the [demo folder](./demo/) a way to use the polyfill.
+You could see in the [demos folder](./demos/) a way to use the polyfill.
+
+### Classical way
 
 Ensure to import the polyfill, through an import:
 
 ```js
-import * as polyfill from '@web-component-attribute-polyfill/browser';
+import '@web-component-attribute-polyfill/browser';
 ```
 
 Or from the HTML `script` tag:
@@ -82,6 +84,59 @@ class BorderStylingAttribute extends globalThis.CustomAttribute {
 }
 
 customElements.defineAttribute('border-styling', BorderStylingAttribute);
+```
+
+And at the end, use it on your elements:
+
+```html
+<article border-styling="default">Some article tag</article>
+
+<div>
+  <template shadowrootmode="open">
+    <article border-styling="default">Some article tag</article>
+  </template>
+</div>
+```
+
+### Your own way
+
+```js
+import {
+  defineAttribute,
+  enableClosedShadowRoot,
+  observeAttributes,
+  CustomAttribute,
+} from '@web-component-attribute-polyfill/core';
+
+class BorderStylingAttribute extends CustomAttribute {
+  attributeChangedCallback(name, oldValue, newValue) {
+    super.attributeChangedCallback(name, oldValue, newValue);
+    this.applyColor(newValue);
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.element.style.padding = '1rem';
+    this.element.style.border = '3px solid black';
+    this.element.style.borderRadius = '1rem';
+    this.applyColor();
+  }
+
+  applyColor(styling) {
+    if (styling === 'variant') {
+      this.element.style.borderColor = 'red';
+    } else {
+      this.element.style.borderColor = 'black';
+    }
+  }
+}
+
+defineAttribute('border-styling', BorderStylingAttribute);
+enableClosedShadowRoot(globalThis); // If we want to be able to look on closed shadow dom
+
+globalThis.addEventListener('DOMContentLoaded', () => {
+  observeAttributes();
+});
 ```
 
 And at the end, use it on your elements:
