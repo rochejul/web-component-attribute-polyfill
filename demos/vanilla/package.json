@@ -12,8 +12,8 @@
     "start": "Run a local web server (with https) to show the project"
   },
   "devDependencies": {
-    "@web-component-attribute-polyfill/browser": "1.0.0",
-    "@web-component-attribute-polyfill/types": "1.0.0",
+    "@web-component-attribute-polyfill/browser": "1.0.1-beta.0",
+    "@web-component-attribute-polyfill/types": "1.0.1-beta.0",
     "parcel": "2.12.0"
   },
   "license": "MIT",
@@ -23,8 +23,5 @@
   "volta": {
     "node": "20.15.0",
     "npm": "10.7.0"
-  },
-  "dependencies": {
-    "@web-component-attribute-polyfill/core": "1.0.0"
   }
 }

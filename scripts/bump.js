@@ -95,15 +95,26 @@ const proceed = await select({
 });
 
 if (proceed) {
+  // Update packages
   await asyncExec(
     `npm version ${versionToUse} --workspaces --no-git-tag-version`,
   );
+
+  // Demos
   await asyncExec(
-    `npm uninstall --save @web-component-attribute-polyfill/core --workspace=demo`,
+    `npm uninstall --save @web-component-attribute-polyfill/browser--workspace=demos/vanilla`,
   );
   await asyncExec(
-    `npm install --save @web-component-attribute-polyfill/core --workspace=demo`,
+    `npm install --save @web-component-attribute-polyfill/browser --workspace=demos/vanilla`,
   );
+  await asyncExec(
+    `npm uninstall --save @web-component-attribute-polyfill/types--workspace=demos/vanilla`,
+  );
+  await asyncExec(
+    `npm install --save @web-component-attribute-polyfill/types --workspace=demos/vanilla`,
+  );
+
+  // Packages
   await asyncExec(
     `npm uninstall --save @web-component-attribute-polyfill/core --workspace=packages/browser`,
   );
@@ -116,6 +127,8 @@ if (proceed) {
   await asyncExec(
     `npm install --save @web-component-attribute-polyfill/core --workspace=packages/types`,
   );
+
+  // Final step
   await asyncExec('git add .');
 
   try {
