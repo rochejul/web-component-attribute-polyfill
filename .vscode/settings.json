@@ -1,8 +1,12 @@
 {
   "eslint.workingDirectories": [{ "mode": "location" }],
   "eslint.useFlatConfig": true,
-  "jest.jestCommandLine": "NODE_OPTIONS=\"$NODE_OPTIONS --enable-source-maps --experimental-vm-modules\" npx jest --no-cache",
+  "jest.jestCommandLine": "npx jest --no-cache",
+  "jest.nodeEnv": {
+    "NODE_OPTIONS": "--experimental-vm-modules"
+  },
   "jest.runMode": "on-save",
+  "jest.debugMode": true,
   "jest.coverageFormatter": "DefaultFormatter",
   "jest.coverageColors": {
     "covered": "rgba(9, 156, 65, 0.4)",
