@@ -4,7 +4,13 @@ import { resolve, join } from 'path';
 import semverInc from 'semver/functions/inc.js';
 import { select } from '@inquirer/prompts';
 
-import { asyncExec } from './lib/exec.js';
+import { stagedModifiedFiles, pushOnOrigin } from './lib/git.js';
+import {
+  updateNpmPackages,
+  updateNpmWorkspaceDependecy,
+  updateNpmVersion,
+  publishOnNpmRegistry,
+} from './lib/npm.js';
 
 const __dirname = import.meta.dirname;
 const packageJsonFilePath = resolve(join(__dirname, '../package.json'));
@@ -77,70 +83,44 @@ const proceed = await select({
 
 if (proceed) {
   // Update packages
-  await asyncExec(
-    `npm version ${versionToUse} --workspaces --no-git-tag-version`,
-  );
+  await updateNpmPackages(versionToUse);
 
   // Demos
-  await asyncExec(
-    `npm uninstall --save @web-component-attribute-polyfill/browser--workspace=demos/vanilla`,
+  await updateNpmWorkspaceDependecy(
+    '@web-component-attribute-polyfill/browser',
+    'demos/vanilla',
   );
-  await asyncExec(
-    `npm install --save @web-component-attribute-polyfill/browser --workspace=demos/vanilla`,
-  );
-  await asyncExec(
-    `npm uninstall --save @web-component-attribute-polyfill/types--workspace=demos/vanilla`,
-  );
-  await asyncExec(
-    `npm install --save @web-component-attribute-polyfill/types --workspace=demos/vanilla`,
+  await updateNpmWorkspaceDependecy(
+    '@web-component-attribute-polyfill/types',
+    'demos/vanilla',
   );
 
-  await asyncExec(
-    `npm uninstall --save @web-component-attribute-polyfill/browser--workspace=demos/typescript`,
+  await updateNpmWorkspaceDependecy(
+    '@web-component-attribute-polyfill/browser',
+    'demos/typescript',
   );
-  await asyncExec(
-    `npm install --save @web-component-attribute-polyfill/browser --workspace=demos/typescript`,
-  );
-  await asyncExec(
-    `npm uninstall --save @web-component-attribute-polyfill/types--workspace=demos/typescript`,
-  );
-  await asyncExec(
-    `npm install --save @web-component-attribute-polyfill/types --workspace=demos/typescript`,
+  await updateNpmWorkspaceDependecy(
+    '@web-component-attribute-polyfill/types',
+    'demos/typescript',
   );
 
   // Packages
-  await asyncExec(
-    `npm uninstall --save @web-component-attribute-polyfill/core --workspace=packages/browser`,
+  await updateNpmWorkspaceDependecy(
+    '@web-component-attribute-polyfill/core',
+    'packages/browser',
   );
-  await asyncExec(
-    `npm install --save @web-component-attribute-polyfill/core --workspace=packages/browser`,
+  await updateNpmWorkspaceDependecy(
+    '@web-component-attribute-polyfill/core',
+    'packages/types',
   );
-
-  await asyncExec(
-    `npm uninstall --save @web-component-attribute-polyfill/core --workspace=packages/types`,
-  );
-  await asyncExec(
-    `npm install --save @web-component-attribute-polyfill/core --workspace=packages/types`,
-  );
-
-  await asyncExec(
-    `npm uninstall --save @web-component-attribute-polyfill/browser --workspace=packages/types`,
-  );
-  await asyncExec(
-    `npm install --save @web-component-attribute-polyfill/browser --workspace=packages/types`,
+  await updateNpmWorkspaceDependecy(
+    '@web-component-attribute-polyfill/browser',
+    'packages/types',
   );
 
   // Final step
-  await asyncExec('git add .');
-
-  try {
-    await asyncExec(
-      `npm version ${versionToUse} --include-workspace-root --force -m "chore: release %s"`,
-    );
-    // eslint-disable-next-line no-unused-vars
-  } catch (e) {
-    // nothing to do
-  }
+  await stagedModifiedFiles();
+  await updateNpmVersion(versionToUse);
 
   const push = await select({
     message: 'Do you want to push on remote?',
@@ -157,8 +137,7 @@ if (proceed) {
   });
 
   if (push) {
-    await asyncExec(`git push origin --no-verify`);
-    await asyncExec(`git push origin --no-verify --tags`);
+    await pushOnOrigin();
   }
 
   const publish = await select({
@@ -176,6 +155,6 @@ if (proceed) {
   });
 
   if (publish) {
-    await asyncExec(`npm run dev:publish`);
+    await publishOnNpmRegistry();
   }
 }
