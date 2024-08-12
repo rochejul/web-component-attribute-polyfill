@@ -20,13 +20,6 @@
     "test:coverage": "npm run test:coverage --workspaces --if-present"
   },
   "//": {
-    "bump:release": "Upgrade the release version over packages (remove the preid)",
-    "bump:major": "Upgrade the major version over packages",
-    "bump:major:beta": "Upgrade the major version over packages and add the beta preid",
-    "bump:minor": "Upgrade the minor version over packages",
-    "bump:minor:beta": "Upgrade the minor version over packages and add the beta preid",
-    "bump:patch": "Upgrade the patch version over packages",
-    "bump:patch:beta": "Upgrade the patch version over packages and add the beta preid",
     "dev:build": "Build the project over packages",
     "dev:bump": "Bump the project's version (don't forget to push the commit and the tag)",
     "dev:check": "Run tests and styling over packages",
