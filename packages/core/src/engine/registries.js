@@ -3,12 +3,15 @@ export { getRegistry as getCustomAttributesRegistry } from '../api/defineAttribu
 
 let registryInstance = new Registry();
 
+/**
+ * @returns {Registry}
+ */
 export function getInstancesRegistry() {
   return registryInstance;
 }
 
 /**
- * @param {Element} element
+ * @param {Node} element
  * @returns {{ key: CustomAttributeInstance, customAttributeInstance: CustomAttribute }[]}
  */
 export function getRegistryEntriesForElement(element) {

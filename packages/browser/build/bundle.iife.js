@@ -25,7 +25,7 @@
   const ATTRIBUTE_NAME_REGEXP = /^[a-zA-Z0-9](([a-zA-Z0-9\\-])*[a-zA-Z0-9])?$/;
 
   /**
-   * @param {Element} element
+   * @param {Node} element
    * @returns {string[]}
    */
   function getDeclaredAttributes(element) {
@@ -33,7 +33,7 @@
   }
 
   /**
-   * @param {Element} element
+   * @param {Node} element
    * @returns {boolean}
    */
   function hasShadowDom(element) {
@@ -41,8 +41,8 @@
   }
 
   /**
-   * @param {Element} root
-   * @returns {Element[]}
+   * @param {Node} root
+   * @returns {Node[]}
    */
   function findShadowElements(root) {
     const elements = [];
@@ -60,9 +60,9 @@
   }
 
   /**
-   * @param {Element} root
+   * @param {Node} root
    * @param {string} attrName
-   * @returns {Element[]}
+   * @returns {Node[]}
    */
   function findElementsWithAttr(root, attrName) {
     const elements = [];
@@ -77,7 +77,7 @@
   }
 
   /**
-   * @param {Element} element
+   * @param {Node} element
    * @returns {boolean}
    */
   function isNodeElement(element) {
@@ -85,7 +85,7 @@
   }
 
   /**
-   * @param {Element} element
+   * @param {Node} element
    * @returns {boolean}
    */
   function isTemplateElement(element) {
@@ -102,6 +102,12 @@
 
   const ELEMENT_SYMBOL = Symbol('element');
 
+  /**
+   *
+   * @param {Node} element
+   * @param {Function} InheritedClass
+   * @returns {CustomAttribute}
+   */
   function instantiateCustomAttribute(element, InheritedClass) {
     const instance = new InheritedClass();
     instance[ELEMENT_SYMBOL] = element;
@@ -124,7 +130,7 @@
     disconnectedCallback() {}
 
     /**
-     * @returns {Element}
+     * @returns {Node}
      */
     get element() {
       return this[ELEMENT_SYMBOL];
@@ -174,6 +180,10 @@
     );
   }
 
+  /**
+   * @param {Object} attributeImpl
+   * @returns {boolean}
+   */
   function isValidAttributeImpl(attributeImpl) {
     return typeof attributeImpl === 'function';
   }
@@ -185,6 +195,9 @@
 
   let registryInstance$1 = new Registry();
 
+  /**
+   * @returns {Registry}
+   */
   function getRegistry() {
     return registryInstance$1;
   }
@@ -223,12 +236,15 @@
 
   let registryInstance = new Registry();
 
+  /**
+   * @returns {Registry}
+   */
   function getInstancesRegistry() {
     return registryInstance;
   }
 
   /**
-   * @param {Element} element
+   * @param {Node} element
    * @returns {{ key: CustomAttributeInstance, customAttributeInstance: CustomAttribute }[]}
    */
   function getRegistryEntriesForElement(element) {
@@ -257,10 +273,17 @@
       }
     }
 
+    /**
+     * @returns {boolean}
+     */
     isConnected() {
       return this.#connected;
     }
 
+    /**
+     * @param {Node} element
+     * @returns {boolean}
+     */
     isElement(element) {
       return this.#element === element;
     }
@@ -269,6 +292,9 @@
       this.#connected = !this.#connected;
     }
 
+    /**
+     * @returns {string}
+     */
     toString() {
       return `CustomAttributeInstance::${this.#attributeName}::${this.#element[ELEMENT_ID_SYMBOL]}`;
     }
@@ -392,7 +418,7 @@
   }
 
   /**
-   * @param {Element} [root=document.body]
+   * @param {Node} [root=document.body]
    * @returns {stopObserveMutation}
    */
   function observeElement(root = document.body) {
@@ -411,7 +437,7 @@
 
   /**
    *
-   * @param {Element} element
+   * @param {Node} element
    * @param {string} attributeName
    * @param {CustomAttribute} customAttributeInstance
    * @returns {stopObserveMutation}
@@ -439,7 +465,7 @@
   }
 
   /**
-   * @param {Element} [root=document.body]
+   * @param {Node} [root=document.body]
    */
   function observeAlreadyDeclaredAttrs(root = document.body) {
     const registry = getRegistry();
@@ -452,7 +478,7 @@
 
   /**
    * @param {string} attributeName
-   * @param {Element} [root=document.body]
+   * @param {Node} [root=document.body]
    */
   function observeAlreadyDeclaredAttr(attrName, root = document.body) {
     const registry = getRegistry();
@@ -468,7 +494,7 @@
   }
 
   /**
-   * @param {Element} element
+   * @param {Node} element
    * @param {string} attributeName
    * @param {CustomAttributeImplementation} attributeImpl
    * @returns {stopObserveMutation}
@@ -510,7 +536,7 @@
   }
 
   /**
-   * @param {Element} [root=document.body]
+   * @param {Node} [root=document.body]
    * @returns {stopObserveMutation}
    */
   function observeAttributes(root = document.body) {
@@ -523,7 +549,7 @@
   }
 
   /**
-   * @param {context} context
+   * @param {global} context
    */
   function enableClosedShadowRoot(context) {
     const attachShadow = context.HTMLElement.prototype.attachShadow;

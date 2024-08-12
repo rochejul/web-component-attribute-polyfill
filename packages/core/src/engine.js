@@ -6,7 +6,7 @@ export { CustomAttribute } from './engine/core.js';
 export { observeAttributes } from './engine/observe.js';
 
 /**
- * @param {context} context
+ * @param {global} context
  */
 export function enableClosedShadowRoot(context) {
   const attachShadow = context.HTMLElement.prototype.attachShadow;

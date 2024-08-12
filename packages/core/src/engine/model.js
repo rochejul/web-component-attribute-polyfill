@@ -14,10 +14,17 @@ export class CustomAttributeInstance {
     }
   }
 
+  /**
+   * @returns {boolean}
+   */
   isConnected() {
     return this.#connected;
   }
 
+  /**
+   * @param {Node} element
+   * @returns {boolean}
+   */
   isElement(element) {
     return this.#element === element;
   }
@@ -26,6 +33,9 @@ export class CustomAttributeInstance {
     this.#connected = !this.#connected;
   }
 
+  /**
+   * @returns {string}
+   */
   toString() {
     return `CustomAttributeInstance::${this.#attributeName}::${this.#element[ELEMENT_ID_SYMBOL]}`;
   }

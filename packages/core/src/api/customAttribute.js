@@ -1,5 +1,11 @@
 const ELEMENT_SYMBOL = Symbol('element');
 
+/**
+ *
+ * @param {Node} element
+ * @param {Function} InheritedClass
+ * @returns {CustomAttribute}
+ */
 export function instantiateCustomAttribute(element, InheritedClass) {
   const instance = new InheritedClass();
   instance[ELEMENT_SYMBOL] = element;
@@ -22,7 +28,7 @@ export class CustomAttribute {
   disconnectedCallback() {}
 
   /**
-   * @returns {Element}
+   * @returns {Node}
    */
   get element() {
     return this[ELEMENT_SYMBOL];

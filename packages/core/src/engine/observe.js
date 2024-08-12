@@ -138,7 +138,7 @@ function elementMutationHandler(mutationsList) {
 }
 
 /**
- * @param {Element} [root=document.body]
+ * @param {Node} [root=document.body]
  * @returns {stopObserveMutation}
  */
 function observeElement(root = document.body) {
@@ -157,7 +157,7 @@ function observeElement(root = document.body) {
 
 /**
  *
- * @param {Element} element
+ * @param {Node} element
  * @param {string} attributeName
  * @param {CustomAttribute} customAttributeInstance
  * @returns {stopObserveMutation}
@@ -185,7 +185,7 @@ function observeAttribute(element, attributeName, customAttributeInstance) {
 }
 
 /**
- * @param {Element} [root=document.body]
+ * @param {Node} [root=document.body]
  */
 function observeAlreadyDeclaredAttrs(root = document.body) {
   const registry = getCustomAttributesRegistry();
@@ -198,7 +198,7 @@ function observeAlreadyDeclaredAttrs(root = document.body) {
 
 /**
  * @param {string} attributeName
- * @param {Element} [root=document.body]
+ * @param {Node} [root=document.body]
  */
 export function observeAlreadyDeclaredAttr(attrName, root = document.body) {
   const registry = getCustomAttributesRegistry();
@@ -214,7 +214,7 @@ export function observeAlreadyDeclaredAttr(attrName, root = document.body) {
 }
 
 /**
- * @param {Element} element
+ * @param {Node} element
  * @param {string} attributeName
  * @param {CustomAttributeImplementation} attributeImpl
  * @returns {stopObserveMutation}
@@ -256,7 +256,7 @@ export function observeCustomAttribute(element, attributeName, attributeImpl) {
 }
 
 /**
- * @param {Element} [root=document.body]
+ * @param {Node} [root=document.body]
  * @returns {stopObserveMutation}
  */
 export function observeAttributes(root = document.body) {
