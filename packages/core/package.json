@@ -1,6 +1,6 @@
 {
   "name": "@web-component-attribute-polyfill/core",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "type": "module",
   "description": "Core logic of the polyfill",
   "main": "./src/engine.js",

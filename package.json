@@ -1,6 +1,6 @@
 {
   "name": "web-component-attribute-polyfill",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "type": "module",
   "private": true,
   "description": "Create a polyfill to allow to have an \"attribute\" web component (rather a tag web component)",
