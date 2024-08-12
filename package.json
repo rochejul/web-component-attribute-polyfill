@@ -5,6 +5,7 @@
   "private": true,
   "description": "Create a polyfill to allow to have an \"attribute\" web component (rather a tag web component)",
   "scripts": {
+    "dev:audit": "npm audit --workspaces --include-workspace-root",
     "dev:build": "npm run dev:build --workspaces --if-present",
     "dev:bump": "npm run dev:check && npm run dev:build && node ./scripts/bump.js",
     "dev:check": "npm test && npm run dev:styling",
@@ -20,6 +21,7 @@
     "test:coverage": "npm run test:coverage --workspaces --if-present"
   },
   "//": {
+    "dev:audit": "Checks we don't have vulnearbilities",
     "dev:build": "Build the project over packages",
     "dev:bump": "Bump the project's version (don't forget to push the commit and the tag)",
     "dev:check": "Run tests and styling over packages",
