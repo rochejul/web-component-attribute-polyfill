@@ -1,6 +1,6 @@
 {
   "name": "@web-component-attribute-polyfill/demo",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Demo app",
   "source": "index.html",
   "type": "module",
