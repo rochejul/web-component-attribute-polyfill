@@ -1,7 +1,7 @@
 const ATTRIBUTE_NAME_REGEXP = /^[a-zA-Z0-9](([a-zA-Z0-9\\-])*[a-zA-Z0-9])?$/;
 
 /**
- * @param {Element} element
+ * @param {Node} element
  * @returns {string[]}
  */
 export function getDeclaredAttributes(element) {
@@ -9,7 +9,7 @@ export function getDeclaredAttributes(element) {
 }
 
 /**
- * @param {Element} element
+ * @param {Node} element
  * @returns {boolean}
  */
 export function hasShadowDom(element) {
@@ -17,8 +17,8 @@ export function hasShadowDom(element) {
 }
 
 /**
- * @param {Element} root
- * @returns {Element[]}
+ * @param {Node} root
+ * @returns {Node[]}
  */
 export function findShadowElements(root) {
   const elements = [];
@@ -36,9 +36,9 @@ export function findShadowElements(root) {
 }
 
 /**
- * @param {Element} root
+ * @param {Node} root
  * @param {string} attrName
- * @returns {Element[]}
+ * @returns {Node[]}
  */
 export function findElementsWithAttr(root, attrName) {
   const elements = [];
@@ -53,7 +53,7 @@ export function findElementsWithAttr(root, attrName) {
 }
 
 /**
- * @param {Element} element
+ * @param {Node} element
  * @returns {boolean}
  */
 export function isNodeElement(element) {
@@ -61,7 +61,7 @@ export function isNodeElement(element) {
 }
 
 /**
- * @param {Element} element
+ * @param {Node} element
  * @returns {boolean}
  */
 export function isTemplateElement(element) {

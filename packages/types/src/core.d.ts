@@ -2,7 +2,7 @@ declare module '@web-component-attribute-polyfill/core' {
   type AttributeName = string;
 
   class CustomAttribute {
-    readonly element: Element;
+    readonly element: Node;
     connectedCallback(): void;
     disconnectedCallback(): void;
     attributeChangedCallback(
@@ -19,7 +19,7 @@ declare module '@web-component-attribute-polyfill/core' {
   ) => void;
 
   type stopObserveMutation = () => void;
-  type observeAttributes = (root?: Element) => stopObserveMutation;
+  type observeAttributes = (root?: Node) => stopObserveMutation;
   type enableClosedShadowRoot = (context: NonNullable<Window>) => void;
 
   export {

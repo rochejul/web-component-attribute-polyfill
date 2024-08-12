@@ -24,7 +24,7 @@ define((function () { 'use strict';
   const ATTRIBUTE_NAME_REGEXP = /^[a-zA-Z0-9](([a-zA-Z0-9\\-])*[a-zA-Z0-9])?$/;
 
   /**
-   * @param {Element} element
+   * @param {Node} element
    * @returns {string[]}
    */
   function getDeclaredAttributes(element) {
@@ -32,7 +32,7 @@ define((function () { 'use strict';
   }
 
   /**
-   * @param {Element} element
+   * @param {Node} element
    * @returns {boolean}
    */
   function hasShadowDom(element) {
@@ -40,8 +40,8 @@ define((function () { 'use strict';
   }
 
   /**
-   * @param {Element} root
-   * @returns {Element[]}
+   * @param {Node} root
+   * @returns {Node[]}
    */
   function findShadowElements(root) {
     const elements = [];
@@ -59,9 +59,9 @@ define((function () { 'use strict';
   }
 
   /**
-   * @param {Element} root
+   * @param {Node} root
    * @param {string} attrName
-   * @returns {Element[]}
+   * @returns {Node[]}
    */
   function findElementsWithAttr(root, attrName) {
     const elements = [];
@@ -76,7 +76,7 @@ define((function () { 'use strict';
   }
 
   /**
-   * @param {Element} element
+   * @param {Node} element
    * @returns {boolean}
    */
   function isNodeElement(element) {
@@ -84,7 +84,7 @@ define((function () { 'use strict';
   }
 
   /**
-   * @param {Element} element
+   * @param {Node} element
    * @returns {boolean}
    */
   function isTemplateElement(element) {
@@ -101,6 +101,12 @@ define((function () { 'use strict';
 
   const ELEMENT_SYMBOL = Symbol('element');
 
+  /**
+   *
+   * @param {Node} element
+   * @param {Function} InheritedClass
+   * @returns {CustomAttribute}
+   */
   function instantiateCustomAttribute(element, InheritedClass) {
     const instance = new InheritedClass();
     instance[ELEMENT_SYMBOL] = element;
@@ -123,7 +129,7 @@ define((function () { 'use strict';
     disconnectedCallback() {}
 
     /**
-     * @returns {Element}
+     * @returns {Node}
      */
     get element() {
       return this[ELEMENT_SYMBOL];
@@ -173,6 +179,10 @@ define((function () { 'use strict';
     );
   }
 
+  /**
+   * @param {Object} attributeImpl
+   * @returns {boolean}
+   */
   function isValidAttributeImpl(attributeImpl) {
     return typeof attributeImpl === 'function';
   }
@@ -184,6 +194,9 @@ define((function () { 'use strict';
 
   let registryInstance$1 = new Registry();
 
+  /**
+   * @returns {Registry}
+   */
   function getRegistry() {
     return registryInstance$1;
   }
@@ -222,12 +235,15 @@ define((function () { 'use strict';
 
   let registryInstance = new Registry();
 
+  /**
+   * @returns {Registry}
+   */
   function getInstancesRegistry() {
     return registryInstance;
   }
 
   /**
-   * @param {Element} element
+   * @param {Node} element
    * @returns {{ key: CustomAttributeInstance, customAttributeInstance: CustomAttribute }[]}
    */
   function getRegistryEntriesForElement(element) {
@@ -256,10 +272,17 @@ define((function () { 'use strict';
       }
     }
 
+    /**
+     * @returns {boolean}
+     */
     isConnected() {
       return this.#connected;
     }
 
+    /**
+     * @param {Node} element
+     * @returns {boolean}
+     */
     isElement(element) {
       return this.#element === element;
     }
@@ -268,6 +291,9 @@ define((function () { 'use strict';
       this.#connected = !this.#connected;
     }
 
+    /**
+     * @returns {string}
+     */
     toString() {
       return `CustomAttributeInstance::${this.#attributeName}::${this.#element[ELEMENT_ID_SYMBOL]}`;
     }
@@ -391,7 +417,7 @@ define((function () { 'use strict';
   }
 
   /**
-   * @param {Element} [root=document.body]
+   * @param {Node} [root=document.body]
    * @returns {stopObserveMutation}
    */
   function observeElement(root = document.body) {
@@ -410,7 +436,7 @@ define((function () { 'use strict';
 
   /**
    *
-   * @param {Element} element
+   * @param {Node} element
    * @param {string} attributeName
    * @param {CustomAttribute} customAttributeInstance
    * @returns {stopObserveMutation}
@@ -438,7 +464,7 @@ define((function () { 'use strict';
   }
 
   /**
-   * @param {Element} [root=document.body]
+   * @param {Node} [root=document.body]
    */
   function observeAlreadyDeclaredAttrs(root = document.body) {
     const registry = getRegistry();
@@ -451,7 +477,7 @@ define((function () { 'use strict';
 
   /**
    * @param {string} attributeName
-   * @param {Element} [root=document.body]
+   * @param {Node} [root=document.body]
    */
   function observeAlreadyDeclaredAttr(attrName, root = document.body) {
     const registry = getRegistry();
@@ -467,7 +493,7 @@ define((function () { 'use strict';
   }
 
   /**
-   * @param {Element} element
+   * @param {Node} element
    * @param {string} attributeName
    * @param {CustomAttributeImplementation} attributeImpl
    * @returns {stopObserveMutation}
@@ -509,7 +535,7 @@ define((function () { 'use strict';
   }
 
   /**
-   * @param {Element} [root=document.body]
+   * @param {Node} [root=document.body]
    * @returns {stopObserveMutation}
    */
   function observeAttributes(root = document.body) {
@@ -522,7 +548,7 @@ define((function () { 'use strict';
   }
 
   /**
-   * @param {context} context
+   * @param {global} context
    */
   function enableClosedShadowRoot(context) {
     const attachShadow = context.HTMLElement.prototype.attachShadow;

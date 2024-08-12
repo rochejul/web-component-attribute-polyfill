@@ -11,6 +11,10 @@ function isValidCustomAttributeName(attributeName) {
   );
 }
 
+/**
+ * @param {Object} attributeImpl
+ * @returns {boolean}
+ */
 function isValidAttributeImpl(attributeImpl) {
   return typeof attributeImpl === 'function';
 }
@@ -22,6 +26,9 @@ function isValidAttributeImpl(attributeImpl) {
 
 let registryInstance = new Registry();
 
+/**
+ * @returns {Registry}
+ */
 export function getRegistry() {
   return registryInstance;
 }
