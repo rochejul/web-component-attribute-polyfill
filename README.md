@@ -6,6 +6,10 @@
   <a href="https://github.com/rochejul/web-component-attribute-polyfill/blob/main/LICENSE">
     <img src="https://img.shields.io/npm/l/@web-component-attribute-polyfill/core.svg" alt="license">
   </a>
+
+  <a href="https://github.com/rochejul/web-component-attribute-polyfill/actions/workflows/node.js.yml">
+    <img src="https://github.com/rochejul/web-component-attribute-polyfill/actions/workflows/node.js.yml/badge.svg" alt="test workflow">
+  </a>
 </p>
 
 # web-component-attribute-polyfill
