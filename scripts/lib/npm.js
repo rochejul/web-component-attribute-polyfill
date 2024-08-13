@@ -1,14 +1,9 @@
-import { asyncExec } from './exec.js';
+import { asyncExec, unsafeAsyncExec } from './exec.js';
 
 export async function updateNpmVersion(versionToUse) {
-  try {
-    await asyncExec(
-      `npm version ${versionToUse} --include-workspace-root --force -m "chore: release %s"`,
-    );
-    // eslint-disable-next-line no-unused-vars
-  } catch (e) {
-    // nothing to do
-  }
+  await unsafeAsyncExec(
+    `npm version ${versionToUse} --include-workspace-root --force -m "chore: release %s"`,
+  );
 }
 
 export async function updateNpmPackages(versionToUse) {

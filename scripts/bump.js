@@ -11,6 +11,7 @@ import {
   updateNpmVersion,
   publishOnNpmRegistry,
 } from './lib/npm.js';
+import { promptConfirm } from './lib/prompt.js';
 
 const __dirname = import.meta.dirname;
 const packageJsonFilePath = resolve(join(__dirname, '../package.json'));
@@ -67,19 +68,7 @@ if (currentVersion.includes('-beta.')) {
 }
 
 console.info('Next project version:', versionToUse);
-const proceed = await select({
-  message: 'Do you want to proceed?',
-  choices: [
-    {
-      name: `No`,
-      value: false,
-    },
-    {
-      name: `Yes`,
-      value: true,
-    },
-  ],
-});
+const proceed = await promptConfirm('Do you want to proceed?');
 
 if (proceed) {
   // Update packages
@@ -122,37 +111,13 @@ if (proceed) {
   await stagedModifiedFiles();
   await updateNpmVersion(versionToUse);
 
-  const push = await select({
-    message: 'Do you want to push on remote?',
-    choices: [
-      {
-        name: `No`,
-        value: false,
-      },
-      {
-        name: `Yes`,
-        value: true,
-      },
-    ],
-  });
+  const push = await promptConfirm('Do you want to push on remote?');
 
   if (push) {
     await pushOnOrigin();
   }
 
-  const publish = await select({
-    message: 'Do you want to publish on NPM?',
-    choices: [
-      {
-        name: `No`,
-        value: false,
-      },
-      {
-        name: `Yes`,
-        value: true,
-      },
-    ],
-  });
+  const publish = await promptConfirm('Do you want to publish on NPM?');
 
   if (publish) {
     await publishOnNpmRegistry();
