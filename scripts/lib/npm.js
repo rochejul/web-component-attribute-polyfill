@@ -22,5 +22,5 @@ export async function updateNpmWorkspaceDependecy(dependencyName, workspace) {
 }
 
 export async function publishOnNpmRegistry() {
-  await asyncExec(`npm run dev:publish`);
+  await unsafeAsyncExec(`npm run dev:publish`);
 }
