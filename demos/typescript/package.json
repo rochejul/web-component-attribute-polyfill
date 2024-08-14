@@ -1,6 +1,6 @@
 {
   "name": "@web-component-attribute-polyfill/demo-ts",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Demo app",
   "source": "index.html",
   "type": "module",
@@ -25,6 +25,6 @@
   },
   "dependencies": {
     "@web-component-attribute-polyfill/browser": "1.0.4",
-    "@web-component-attribute-polyfill/types": "1.0.4"
+    "@web-component-attribute-polyfill/types": "1.0.5"
   }
 }
