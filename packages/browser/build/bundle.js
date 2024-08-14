@@ -150,7 +150,7 @@ class Registry {
   }
 
   has(key) {
-    const hash = key?.toString() ?? key;
+    const hash = key.toString();
     return this.getKeys().find((entry) => entry.toString() === hash);
   }
 
@@ -551,9 +551,10 @@ function observeAttributes(root = document.body) {
 function enableClosedShadowRoot(context) {
   const attachShadow = context.HTMLElement.prototype.attachShadow;
   context.HTMLElement.prototype.attachShadow = function (option) {
+    // option is required and the property"mode" is required also
     const shadowRoot = attachShadow.call(this, option);
 
-    if (option?.mode === 'closed') {
+    if (option.mode === 'closed') {
       observeAttributes(shadowRoot);
     }
 

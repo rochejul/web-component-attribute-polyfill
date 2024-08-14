@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { beforeEach, afterEach } from '@jest/globals';
+import { beforeEach, afterEach, jest } from '@jest/globals';
 
 import {
   getCustomAttributesRegistry,
@@ -17,6 +17,7 @@ Object.defineProperty(globalThis, 'crypto', {
 });
 
 beforeEach(() => {
+  jest.resetModules();
   document.body.textContent = '';
 
   customAttributesRegistry.clear();

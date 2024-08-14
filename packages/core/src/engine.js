@@ -11,9 +11,10 @@ export { observeAttributes } from './engine/observe.js';
 export function enableClosedShadowRoot(context) {
   const attachShadow = context.HTMLElement.prototype.attachShadow;
   context.HTMLElement.prototype.attachShadow = function (option) {
+    // option is required and the property"mode" is required also
     const shadowRoot = attachShadow.call(this, option);
 
-    if (option?.mode === 'closed') {
+    if (option.mode === 'closed') {
       observeAttributes(shadowRoot);
     }
 

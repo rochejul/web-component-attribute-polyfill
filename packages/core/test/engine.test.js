@@ -349,5 +349,35 @@ describe('core - engine', () => {
       expect(spyAttributeChangedCallback).toHaveBeenCalledTimes(1);
       expect(spyDisconnectedCallback).toHaveBeenCalledTimes(1);
     });
+
+    test('otherwise, we are in an open shadow and we then only returns the shadow root (no observation binding)', async () => {
+      // Arrange
+      enableClosedShadowRoot(globalThis);
+      defineAttribute('hx-post', MyOwnAttribute);
+
+      let root = document.createElement('section');
+      document.body.appendChild(root);
+
+      root.attachShadow({ mode: 'open' });
+      root = root.shadowRoot;
+
+      const element = document.createElement('div');
+      element.setAttribute('hx-post', 'old-value');
+
+      // Act
+      root.appendChild(element);
+      await digest();
+
+      element.setAttribute('hx-post', 'some-value');
+      await digest();
+
+      root.removeChild(element);
+      await digest();
+
+      // Assert
+      expect(spyConnectedCallback).toHaveBeenCalledTimes(0);
+      expect(spyAttributeChangedCallback).toHaveBeenCalledTimes(0);
+      expect(spyDisconnectedCallback).toHaveBeenCalledTimes(0);
+    });
   });
 });
