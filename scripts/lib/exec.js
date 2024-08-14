@@ -22,7 +22,7 @@ export async function asyncExec(cmd) {
 
 export async function unsafeAsyncExec(cmd) {
   try {
-    await exec(cmd);
+    await asyncExec(cmd);
     // eslint-disable-next-line no-unused-vars
   } catch (e) {
     // nothing to do
