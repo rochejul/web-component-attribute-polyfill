@@ -7,6 +7,14 @@
     <img src="https://img.shields.io/npm/l/@web-component-attribute-polyfill/core.svg" alt="license">
   </a>
 
+  <a href="https://codeclimate.com/github/rochejul/web-component-attribute-polyfill">
+    <img src="https://codeclimate.com/github/rochejul/web-component-attribute-polyfill/badges/gpa.svg" alt="Code Climate">
+  </a>
+
+  <a href="https://snyk.io/test/github/rochejul/web-component-attribute-polyfill">
+    <img src="https://snyk.io/test/github/rochejul/web-component-attribute-polyfill/badge.svg?targetFile=package.json" alt="Known Vulnerabilities">
+  </a>
+
   <a href="https://github.com/rochejul/web-component-attribute-polyfill/actions/workflows/node.js.yml">
     <img src="https://github.com/rochejul/web-component-attribute-polyfill/actions/workflows/node.js.yml/badge.svg" alt="test workflow">
   </a>
