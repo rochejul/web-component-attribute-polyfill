@@ -35,6 +35,17 @@ If this package needs ` jest`, ensure in the ` vscode.settings.json` to update t
 "jest.virtualFolders": [{ "name": "core", "rootPath": "packages/core" }]
 ```
 
+### Remove package
+
+if you need to remove package, here the process:
+
+- First, remove the folder, e.g. `rm -rf packages/b`
+- Second, cleanup if needed vscode files
+- Next, run `npm install`
+- Then update the ` package-lock.json` file to remove your package
+
+For the last, it seems there is [an issue](https://github.com/npm/cli/issues/5463) when we remove a package and the lock seems to be cleaned. There is a pending [PR](https://github.com/npm/cli/pull/5478) but notyet approved.
+
 ### Add a dependency between packages
 
 If you need to add a common dependency, please on the root of the project:
