@@ -56,8 +56,20 @@ npm install --save-dev mydep
 
 ### Link a package on another package
 
-If you need a package on another one, please on the root of the project:
+#### Public package
+
+If you need a public package on another one, please run on the root of the project:
 
 ```bash
 npm install --save @web-component-attribute-polyfill/core --workspace=packages/browse
+```
+
+#### Private package
+
+If you need a private package on another one, please edit in the target package's `package.json` file the `peerDependencies` liek so:
+
+```json
+"peerDependencies": {
+    "@web-component-attribute-polyfill/jest-utils": "*"
+}
 ```
