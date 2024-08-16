@@ -33,7 +33,8 @@
   "publishConfig": {
     "access": "public"
   },
-  "devDependencies": {
-    "@web-component-attribute-polyfill/jest-utils": "1.0.6"
+  "devDependencies": {},
+  "peerDependencies": {
+    "@web-component-attribute-polyfill/jest-utils": "*"
   }
 }

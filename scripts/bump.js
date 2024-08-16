@@ -95,11 +95,6 @@ if (proceed) {
 
   // Packages
   await updateNpmWorkspaceDependecy(
-    '@web-component-attribute-polyfill/jest-utils',
-    'packages/test-performance',
-    true,
-  );
-  await updateNpmWorkspaceDependecy(
     '@web-component-attribute-polyfill/browser',
     'packages/test-performance',
     true,
@@ -108,17 +103,6 @@ if (proceed) {
   await updateNpmWorkspaceDependecy(
     '@web-component-attribute-polyfill/core',
     'packages/browser',
-  );
-  await updateNpmWorkspaceDependecy(
-    '@web-component-attribute-polyfill/jest-utils',
-    'packages/browser',
-    true,
-  );
-
-  await updateNpmWorkspaceDependecy(
-    '@web-component-attribute-polyfill/jest-utils',
-    'packages/core',
-    true,
   );
 
   await updateNpmWorkspaceDependecy(
