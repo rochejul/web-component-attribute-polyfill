@@ -1,0 +1,28 @@
+{
+  "name": "@web-component-attribute-polyfill/test-performance",
+  "version": "1.0.6",
+  "type": "module",
+  "private": "true",
+  "description": "Performance testing of the polyfill",
+  "devDependencies": {
+    "@web-component-attribute-polyfill/browser": "1.0.6",
+    "@web-component-attribute-polyfill/jest-utils": "1.0.6",
+    "kelonio": "0.10.0"
+  },
+  "scripts": {
+    "dev:linting": "eslint --config=eslint.config.js",
+    "test": "NODE_OPTIONS=\"$NODE_OPTIONS --enable-source-maps --experimental-vm-modules\" npx jest --no-cache --config jest.config.json"
+  },
+  "//": {
+    "dev:linting": "Lint files",
+    "test": "Run Jest tests"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": "^16.10.0 || ^18.12.0 || >=20.0.0"
+  },
+  "volta": {
+    "node": "20.15.0",
+    "npm": "10.7.0"
+  }
+}

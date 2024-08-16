@@ -1,4 +1,4 @@
-import { randomUUID } from 'node:crypto';
+import { applyPolyfill } from '@web-component-attribute-polyfill/jest-utils';
 import { beforeEach, afterEach, jest } from '@jest/globals';
 
 import {
@@ -6,15 +6,11 @@ import {
   getInstancesRegistry,
 } from '../src/engine/registries.js';
 
+applyPolyfill();
+
 const customAttributesRegistry = getCustomAttributesRegistry();
 const instancesRegistry = getInstancesRegistry();
 const attachShadow = HTMLElement.prototype.attachShadow;
-
-Object.defineProperty(globalThis, 'crypto', {
-  value: {
-    randomUUID: () => randomUUID(),
-  },
-});
 
 beforeEach(() => {
   jest.resetModules();

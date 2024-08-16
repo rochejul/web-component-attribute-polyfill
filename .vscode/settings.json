@@ -15,7 +15,8 @@
   },
   "jest.virtualFolders": [
     { "name": "browser", "rootPath": "packages/browser" },
-    { "name": "core", "rootPath": "packages/core" }
+    { "name": "core", "rootPath": "packages/core" },
+    { "name": "test-performance", "rootPath": "packages/test-performance" }
   ],
   "jestrunner.jestCommand": "NODE_OPTIONS=\"--experimental-vm-modules\" npx jest",
   "jestrunner.runOptions": ["--no-cache", "--coverage=false"],
