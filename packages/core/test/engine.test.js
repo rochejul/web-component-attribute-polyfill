@@ -14,7 +14,7 @@ import {
 } from '../src/engine.js';
 import { CustomAttribute } from '../src/api/customAttribute.js';
 
-import { digest } from './jest.utils.js';
+import { digest } from '@web-component-attribute-polyfill/jest-utils';
 
 describe('core - engine', () => {
   const spyConnectedCallback = jest.fn();

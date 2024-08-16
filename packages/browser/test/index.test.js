@@ -1,6 +1,6 @@
 import { describe, test, expect, jest } from '@jest/globals';
 import { CustomAttribute } from '@web-component-attribute-polyfill/core';
-import { digest } from './jest.utils.js';
+import { digest } from '@web-component-attribute-polyfill/jest-utils';
 import '../src/index.js';
 
 describe('core - index', () => {

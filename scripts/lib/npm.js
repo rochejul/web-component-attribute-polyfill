@@ -12,12 +12,18 @@ export async function updateNpmPackages(versionToUse) {
   );
 }
 
-export async function updateNpmWorkspaceDependecy(dependencyName, workspace) {
+export async function updateNpmWorkspaceDependecy(
+  dependencyName,
+  workspace,
+  dev = false,
+) {
+  const saveType = dev ? '--save-dev' : '--save';
+
   await asyncExec(
-    `npm uninstall --save ${dependencyName} --workspace=${workspace}`,
+    `npm uninstall ${saveType} ${dependencyName} --workspace=${workspace}`,
   );
   await asyncExec(
-    `npm install --save ${dependencyName} --workspace=${workspace}`,
+    `npm install ${saveType} ${dependencyName} --workspace=${workspace}`,
   );
 }
 

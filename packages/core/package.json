@@ -32,5 +32,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "@web-component-attribute-polyfill/jest-utils": "1.0.6"
   }
 }

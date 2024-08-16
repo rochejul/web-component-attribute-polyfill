@@ -99,6 +99,16 @@ if (proceed) {
     'packages/browser',
   );
   await updateNpmWorkspaceDependecy(
+    '@web-component-attribute-polyfill/jest-utils',
+    'packages/browser',
+    true,
+  );
+  await updateNpmWorkspaceDependecy(
+    '@web-component-attribute-polyfill/jest-utils',
+    'packages/core',
+    true,
+  );
+  await updateNpmWorkspaceDependecy(
     '@web-component-attribute-polyfill/core',
     'packages/types',
   );

@@ -13,7 +13,7 @@ import { getInstancesRegistry } from '../../src/engine/registries.js';
 import { CustomAttribute } from '../../src/api/customAttribute.js';
 import { defineAttribute } from '../../src/api/defineAttribute';
 
-import { digest } from '../jest.utils.js';
+import { digest } from '@web-component-attribute-polyfill/jest-utils';
 
 describe('core - engine - observe', () => {
   const spyConnectedCallback = jest.fn();
