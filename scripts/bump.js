@@ -96,6 +96,12 @@ if (proceed) {
   // Packages
   await updateNpmWorkspaceDependecy(
     '@web-component-attribute-polyfill/browser',
+    'packages/test-integration',
+    true,
+  );
+
+  await updateNpmWorkspaceDependecy(
+    '@web-component-attribute-polyfill/browser',
     'packages/test-performance',
     true,
   );

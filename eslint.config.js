@@ -32,6 +32,33 @@ export const eslintWeb = {
   ],
 };
 
+export const eslintNodeJs = {
+  files: ['**/*.cjs'],
+  languageOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+    globals: {
+      ...globals.node,
+    },
+  },
+  plugins: {
+    prettier,
+  },
+  rules: {
+    'prettier/prettier': 'warn',
+  },
+  ignores: [
+    '**/.*',
+    'node_modules/*',
+    '--help/*',
+    '.husky/*',
+    '.vscode/*',
+    'images/*',
+    '**/*.amd.js',
+    '**/*.umd.js',
+  ],
+};
+
 export const eslintAmd = {
   files: ['**/*.amd.js', '**/*.umd.js'],
   languageOptions: {

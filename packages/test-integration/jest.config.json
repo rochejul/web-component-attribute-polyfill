@@ -1,0 +1,8 @@
+{
+  "clearMocks": true,
+  "moduleFileExtensions": ["mjs", "js"],
+  "preset": "jest-puppeteer",
+  "testRegex": [".*test\\.js$"],
+  "transform": {},
+  "verbose": true
+}

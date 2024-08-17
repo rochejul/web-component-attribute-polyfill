@@ -1,0 +1,32 @@
+{
+  "name": "@web-component-attribute-polyfill/test-integration",
+  "version": "1.0.7",
+  "type": "module",
+  "private": "true",
+  "description": "Integration testing of the polyfill",
+  "scripts": {
+    "dev:linting": "eslint --config=eslint.config.js",
+    "test:browser": "HEADLESS=\"false\" npm run test:headless",
+    "test:headless": "NODE_OPTIONS=\"$NODE_OPTIONS --enable-source-maps --experimental-vm-modules\" npx jest --no-cache --config jest.config.json"
+  },
+  "//": {
+    "dev:linting": "Lint files",
+    "test:browser": "Run Jest tests without headless mode",
+    "test:headless": "Run Jest tests with headless mode"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": "^16.10.0 || ^18.12.0 || >=20.0.0"
+  },
+  "volta": {
+    "node": "20.15.0",
+    "npm": "10.7.0"
+  },
+  "devDependencies": {
+    "@web-component-attribute-polyfill/browser": "1.0.7",
+    "jest-puppeteer": "10.0.1"
+  },
+  "peerDependencies": {
+    "@web-component-attribute-polyfill/jest-utils": "*"
+  }
+}
