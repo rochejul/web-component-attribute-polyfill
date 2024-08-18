@@ -6,11 +6,13 @@
   "description": "Integration testing of the polyfill",
   "scripts": {
     "dev:linting": "eslint --config=eslint.config.js",
+    "start": "npx parcel index.html --port 4444 --https",
     "test:browser": "HEADLESS=\"false\" npm run test:headless",
     "test:headless": "NODE_OPTIONS=\"$NODE_OPTIONS --enable-source-maps --experimental-vm-modules\" npx jest --no-cache --config jest.config.json"
   },
   "//": {
     "dev:linting": "Lint files",
+    "start": "Run a local web server (with https) to show the project",
     "test:browser": "Run Jest tests without headless mode",
     "test:headless": "Run Jest tests with headless mode"
   },
@@ -23,8 +25,10 @@
     "npm": "10.7.0"
   },
   "devDependencies": {
+    "@types/puppeteer": "7.0.4",
     "@web-component-attribute-polyfill/browser": "1.0.7",
-    "jest-puppeteer": "10.0.1"
+    "jest-puppeteer": "10.0.1",
+    "parcel": "2.12.0"
   },
   "peerDependencies": {
     "@web-component-attribute-polyfill/jest-utils": "*"

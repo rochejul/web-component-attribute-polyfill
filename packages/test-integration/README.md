@@ -19,6 +19,7 @@ Integration testing of the polyfill
 ## Commands
 
 - `npm run dev:linting`: Lint files
+- `npm start`: Run a local web server (with https) to show the project
 - `npm run test:browser`: Run tests without headless mode
 - `npm run test:hedaless`: Run tests with headless mode
 
