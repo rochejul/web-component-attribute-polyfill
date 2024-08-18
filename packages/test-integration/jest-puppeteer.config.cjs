@@ -5,7 +5,12 @@ module.exports = {
     headless: process.env.HEADLESS !== 'false',
     product: 'chrome',
     acceptInsecureCerts: true,
-    ignoreHTTPSErrors: true,
+    args: [
+      '--allow-insecure-localhost',
+      '--disable-dev-shm-usage',
+      '--ignore-certificate-errors',
+      '--enable-features=NetworkService',
+    ],
   },
   server: {
     command: 'npm start',
