@@ -18,6 +18,10 @@
   <a href="https://github.com/rochejul/web-component-attribute-polyfill/actions/workflows/node.js.yml">
     <img src="https://github.com/rochejul/web-component-attribute-polyfill/actions/workflows/node.js.yml/badge.svg" alt="Node.js Unit Test">
   </a>
+
+  <a href="https://github.com/rochejul/web-component-attribute-polyfill/actions/workflows/integration.yml">
+    <img src="https://github.com/rochejul/web-component-attribute-polyfill/actions/workflows/integration.yml/badge.svg" alt="Node.js Integration Test">
+  </a>
 </p>
 
 # web-component-attribute-polyfill
@@ -177,6 +181,7 @@ And at the end, use it on your elements:
 - `npm run start:ts`: Run the typescript demo
 - `npm test`: Run tests over packages
 - `npm run test:coverage`: Run tests over packages and see coverage reports
+- `npm run test:integration`: Run integration tests
 
 ## Contributing
 

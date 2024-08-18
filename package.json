@@ -18,7 +18,8 @@
     "start": "npm run start --workspace demos/vanilla",
     "start:ts": "npm run start --workspace demos/typescript",
     "test": "npm run test --workspaces --if-present",
-    "test:coverage": "npm run test:coverage --workspaces --if-present"
+    "test:coverage": "npm run test:coverage --workspaces --if-present",
+    "test:integration": "npm run test:headless --workspace ./packages/test-integration"
   },
   "//": {
     "dev:audit": "Checks we don't have vulnearbilities",
@@ -33,7 +34,8 @@
     "start": "Run the vanilla demo",
     "start:ts": "Run the typescript demo",
     "test": "Run tests over packages",
-    "test:coverage": "Run tests over packages and see coverage reports"
+    "test:coverage": "Run tests over packages and see coverage reports",
+    "test:integration": "Run integration tests"
   },
   "workspaces": [
     "packages/*",

@@ -11,8 +11,8 @@
     <img src="https://snyk.io/test/github/rochejul/web-component-attribute-polyfill/badge.svg?targetFile=packages/test-integration/package.json" alt="Known Vulnerabilities">
   </a>
 
-  <a href="https://github.com/rochejul/web-component-attribute-polyfill/actions/workflows/node.js.yml">
-    <img src="https://github.com/rochejul/web-component-attribute-polyfill/actions/workflows/node.js.yml/badge.svg" alt="Node.js Unit Test">
+  <a href="https://github.com/rochejul/web-component-attribute-polyfill/actions/workflows/integration.yml">
+    <img src="https://github.com/rochejul/web-component-attribute-polyfill/actions/workflows/integration.yml/badge.svg" alt="Node.js Integration Test">
   </a>
 </p>
 
@@ -25,7 +25,7 @@ Integration testing of the polyfill
 - `npm run dev:linting`: Lint files
 - `npm start`: Run a local web server (with https) to show the project
 - `npm run test:browser`: Run tests without headless mode
-- `npm run test:hedaless`: Run tests with headless mode
+- `npm run test:headless`: Run tests with headless mode
 
 ## Contributing
 
