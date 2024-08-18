@@ -27,10 +27,7 @@
   "devDependencies": {
     "@types/puppeteer": "7.0.4",
     "@web-component-attribute-polyfill/browser": "1.0.7",
-    "jest-puppeteer": "10.0.1",
+    "jest-puppeteer": "10.1.0",
     "parcel": "2.12.0"
-  },
-  "peerDependencies": {
-    "@web-component-attribute-polyfill/jest-utils": "*"
   }
 }
