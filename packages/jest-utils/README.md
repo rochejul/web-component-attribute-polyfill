@@ -10,6 +10,10 @@
   <a href="https://snyk.io/test/github/rochejul/web-component-attribute-polyfill">
     <img src="https://snyk.io/test/github/rochejul/web-component-attribute-polyfill/badge.svg?targetFile=packages/jest-utils/package.json" alt="Known Vulnerabilities">
   </a>
+
+  <a href="https://github.com/rochejul/web-component-attribute-polyfill/actions/workflows/node.js.yml">
+    <img src="https://github.com/rochejul/web-component-attribute-polyfill/actions/workflows/node.js.yml/badge.svg" alt="Node.js Unit Test">
+  </a>
 </p>
 
 # @web-component-attribute-polyfill/jest-utils

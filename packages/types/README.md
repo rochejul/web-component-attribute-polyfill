@@ -3,6 +3,10 @@
     <img src="https://img.shields.io/npm/v/@web-component-attribute-polyfill/types" alt="npm version">
   </a>
 
+  <a href="https://github.com/rochejul/web-component-attribute-polyfill/blob/main/LICENSE">
+    <img src="https://img.shields.io/npm/l/@web-component-attribute-polyfill/types.svg" alt="license">
+  </a>
+
   <a href="https://packagephobia.now.sh/result?p=@web-component-attribute-polyfill/types">
     <img src="https://packagephobia.now.sh/badge?p=@web-component-attribute-polyfill/types" alt="install size">
   </a>
@@ -11,8 +15,8 @@
     <img src="https://snyk.io/test/github/rochejul/web-component-attribute-polyfill/badge.svg?targetFile=packages/types/package.json" alt="Known Vulnerabilities">
   </a>
 
-  <a href="https://github.com/rochejul/web-component-attribute-polyfill/blob/main/LICENSE">
-    <img src="https://img.shields.io/npm/l/@web-component-attribute-polyfill/types.svg" alt="license">
+  <a href="https://github.com/rochejul/web-component-attribute-polyfill/actions/workflows/node.js.yml">
+    <img src="https://github.com/rochejul/web-component-attribute-polyfill/actions/workflows/node.js.yml/badge.svg" alt="Node.js Unit Test">
   </a>
 </p>
 

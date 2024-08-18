@@ -16,7 +16,7 @@
   </a>
 
   <a href="https://github.com/rochejul/web-component-attribute-polyfill/actions/workflows/node.js.yml">
-    <img src="https://github.com/rochejul/web-component-attribute-polyfill/actions/workflows/node.js.yml/badge.svg" alt="test workflow">
+    <img src="https://github.com/rochejul/web-component-attribute-polyfill/actions/workflows/node.js.yml/badge.svg" alt="Node.js Unit Test">
   </a>
 </p>
 
