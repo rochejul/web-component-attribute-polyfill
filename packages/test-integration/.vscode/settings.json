@@ -1,4 +1,0 @@
-{
-  "jest.jestCommandLine": "npx jest --no-cache --config ./jest.config.json",
-  "jestrunner.configPath": "./jest.config.json"
-}

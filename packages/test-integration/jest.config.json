@@ -1,9 +1,0 @@
-{
-  "clearMocks": true,
-  "moduleFileExtensions": ["mjs", "js"],
-  "preset": "jest-puppeteer",
-  "setupFilesAfterEnv": ["<rootDir>/test/jest.setup.js"],
-  "testRegex": [".*test\\.js$"],
-  "transform": {},
-  "verbose": true
-}
