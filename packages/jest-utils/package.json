@@ -1,6 +1,6 @@
 {
   "name": "@web-component-attribute-polyfill/jest-utils",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "type": "module",
   "private": "true",
   "description": "Jest services for tests",

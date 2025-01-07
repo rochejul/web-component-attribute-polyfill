@@ -1,6 +1,6 @@
 {
   "name": "@web-component-attribute-polyfill/browser",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "main": "./src/index.js",
   "type": "module",
   "description": "Package to load the polyfill into a browser",
@@ -57,6 +57,6 @@
     }
   },
   "dependencies": {
-    "@web-component-attribute-polyfill/core": "1.0.7"
+    "@web-component-attribute-polyfill/core": "1.0.8"
   }
 }
