@@ -51,6 +51,11 @@
   "peerDependencies": {
     "@web-component-attribute-polyfill/jest-utils": "*"
   },
+  "peerDependenciesMeta": {
+    "@web-component-attribute-polyfill/jest-utils": {
+      "optional": true
+    }
+  },
   "dependencies": {
     "@web-component-attribute-polyfill/core": "1.0.7"
   }

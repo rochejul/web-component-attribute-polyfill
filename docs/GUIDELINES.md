@@ -66,10 +66,15 @@ npm install --save @web-component-attribute-polyfill/core --workspace=packages/b
 
 #### Private package
 
-If you need a private package on another one, please edit in the target package's `package.json` file the `peerDependencies` liek so:
+If you need a private package on another one, please edit in the target package's `package.json` file the `peerDependencies` like so:
 
 ```json
 "peerDependencies": {
     "@web-component-attribute-polyfill/jest-utils": "*"
 }
+"peerDependenciesMeta": {
+    "@web-component-attribute-polyfill/jest-utils": {
+        "optional": true
+    }
+},
 ```
