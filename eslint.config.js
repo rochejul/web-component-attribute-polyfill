@@ -19,10 +19,12 @@ export const eslintWeb = {
   },
   rules: {
     'prettier/prettier': 'warn',
+    ...js.configs.recommended.rules,
   },
   ignores: [
     '**/.*',
     'node_modules/*',
+    '**/build/*',
     '--help/*',
     '.husky/*',
     '.vscode/*',
